@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - Мой гардероб</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&family=Space+Mono&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #CC6B4E;
+            --neutral: #F5F5F5;
+            --dark: #333333;
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --header-bg: white;
+            --card-bg: white;
+            --footer-bg: #333333;
+            --footer-text: white;
+            --border-color: #EAEAEA;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1E1E1E;
+            --card-bg: #2D2D2D;
+            --footer-bg: #1E1E1E;
+            --footer-text: #e0e0e0;
+            --neutral: #2D2D2D;
+            --dark: #e0e0e0;
+            --border-color: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             scroll-behavior: smooth;
+             height: 100%;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .wrapper {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+        main.wrapper {
+            flex-grow: 1;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--header-bg);
+            position: relative;
+            flex-wrap: wrap;
+            gap: 15px;
+            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .nav {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: var(--terracotta);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+             transition: color 0.3s;
+             padding: 5px;
+        }
+        .theme-toggle:hover {
+            color: var(--terracotta);
+        }
+
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 2rem;
+            color: var(--text-color);
+            order: 3;
+             transition: color 0.3s;
+        }
+
+        .mobile-nav-container {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-top: 1px solid var(--border-color);
+        }
+        .mobile-nav-container.active {
+            display: flex;
+        }
+         .mobile-nav-container .nav-link {
+             width: 100%;
+             text-align: left;
+             padding: 15px 20px;
+             border-bottom: 1px solid var(--border-color);
+             font-size: 1em;
+        }
+         .mobile-nav-container .nav-link:last-child {
+             border-bottom: none;
+         }
+         .mobile-nav-container .theme-toggle {
+             margin: 10px 20px;
+             align-self: flex-start;
+         }
+
+        .wardrobe-section {
+            padding: 30px 0;
+        }
+
+         .wardrobe-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+             transition: color 0.3s;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .color-filter {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--text-color);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+
+        .color-filter.active {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .wardrobe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .wardrobe-grid.filtered-view {
+             display: flex;
+             flex-wrap: wrap;
+             justify-content: center;
+             gap: 20px;
+             overflow-x: visible;
+             padding-bottom: 0;
+             grid-template-columns: none;
+        }
+
+        .wardrobe-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--card-bg);
+            transition: transform 0.3s, background-color 0.3s;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 250px;
+            flex-shrink: 1;
+            flex-grow: 1;
+        }
+
+        .wardrobe-grid.filtered-view .wardrobe-item {
+            flex-shrink: 0;
+            flex-grow: 0;
+            width: 250px;
+        }
+
+        .wardrobe-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .wardrobe-item img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3 / 4;
+            object-fit: cover;
+            display: block;
+        }
+
+        .item-info {
+            padding: 10px 15px;
+            background: var(--card-bg);
+            margin-top: auto;
+            transition: background-color 0.3s;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-info h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .item-colors {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 1px solid var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .no-items {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px 20px;
+            color: var(--text-color);
+            transition: color 0.3s;
+            width: 100%;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: auto;
+            transition: background-color 0.3s, color 0.3s;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .contact-info {
+            font-size: 0.9em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            opacity: 0.8;
+        }
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+
+        @media (max-width: 992px) {
+             .nav {
+                gap: 15px;
+            }
+             .nav-link {
+                font-size: 0.9rem;
+            }
+            .logo {
+                font-size: 1.6rem;
+            }
+             .wardrobe-grid {
+                 grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+             }
+             .wardrobe-item {
+                 max-width: 230px;
+             }
+             .wardrobe-grid.filtered-view .wardrobe-item {
+                 width: 230px;
+             }
+        }
+
+
+        @media (max-width: 767px) {
+            .header {
+                justify-content: space-between;
+            }
+
+            .logo {
+                 width: auto;
+                 text-align: left;
+                 margin-bottom: 0;
+            }
+             .header-right {
+                 display: flex;
+                 align-items: center;
+                 gap: 10px;
+                 margin-left: auto;
+             }
+
+            .nav {
+                display: none;
+            }
+
+            .burger-menu {
+                display: block;
+                order: 2;
+            }
+             .theme-toggle {
+                 order: 1;
+             }
+
+            .wardrobe-section {
+                padding: 20px 0;
+            }
+
+            .wardrobe-title {
+                 font-size: 2rem;
+            }
+
+            .filters {
+                margin-bottom: 20px;
+                gap: 10px;
+            }
+             .color-filter {
+                width: 30px;
+                height: 30px;
+             }
+
+             .wardrobe-grid {
+                 grid-template-columns: repeat(2, 1fr);
+                 gap: 15px;
+             }
+             .wardrobe-item {
+                 max-width: none;
+                 width: 100%;
+             }
+             .wardrobe-grid.filtered-view {
+                  gap: 15px;
+              }
+              .wardrobe-grid.filtered-view .wardrobe-item {
+                  width: calc(50% - 7.5px);
+                  max-width: 250px;
+              }
+             .footer {
+                 padding: 40px 0;
+             }
+             .contact-info {
+                 font-size: 0.85em;
+                 gap: 10px 20px;
+             }
+        }
+        @media (max-width: 480px) {
+             .wardrobe-grid {
+                 grid-template-columns: 1fr;
+             }
+             .wardrobe-item {
+                 max-width: 300px;
+                 margin-left: auto;
+                 margin-right: auto;
+             }
+             .wardrobe-grid.filtered-view .wardrobe-item {
+                 width: 80%;
+                 max-width: 300px;
+             }
+             .wardrobe-grid.filtered-view {
+                  justify-content: center;
+              }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+         <div class="wrapper" style="display: contents;">
+            <a href="#" class="logo">EcoStyle</a>
+
+            <div class="header-right">
+                <nav class="nav">
+                    <a href="news.html" class="nav-link">Новости</a>
+                    <a href="history.html" class="nav-link">История</a>
+                    <a href="about_us.html" class="nav-link">О нас</a>
+                    <a href="brands.html" class="nav-link">Бренды</a>
+                    <a href="show.html" class="nav-link">Показы</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌓</button>
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+            </div>
+         </div>
+         <nav class="mobile-nav-container" id="mobileNav">
+         </nav>
+    </header>
+
+    <main class="wrapper">
+        <section class="wardrobe-section">
+            <h1 class="wardrobe-title">Мой цифровой гардероб</h1>
+
+             <div class="filters" id="colorFilters">
+                <div class="color-filter" style="background: #b99042" data-color="beige"></div>
+                <div class="color-filter" style="background: #45B7D1" data-color="blue"></div>
+                <div class="color-filter" style="background: #4a9874" data-color="green"></div>
+                <div class="color-filter" style="background: #817f79" data-color="grey"></div>
+                <div class="color-filter" style="background: #D4A5A5" data-color="pink"></div>
+                <div class="color-filter" style="background: #6B4226" data-color="brown"></div>
+                <div class="color-filter" style="background: #000000" data-color="black"></div>
+                <div class="color-filter" style="background: #FFFFFF" data-color="white"></div>
+            </div>
+
+           <div class="wardrobe-grid" id="wardrobeGrid">
+                <div class="wardrobe-item" data-colors="grey,white">
+                    <img src="https://i.pinimg.com/736x/a7/4a/49/a74a4986431caf54932702607bc6da24.jpg" alt="Офисный стиль">
+                    <div class="item-info">
+                        <h3>Офисный стиль</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #817f79"></div>
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="blue,white,black">
+                    <img src="https://i.pinimg.com/736x/5d/0f/65/5d0f658678eef86680ac88f93e1da27e.jpg" alt="Кэжуал выход">
+                    <div class="item-info">
+                        <h3>Кэжуал выход</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #45B7D1"></div>
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                            <div class="color-dot" style="background: #000000"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="black,brown">
+                    <img src="https://i.pinimg.com/736x/5a/26/46/5a26465d7d4ff84f096dca73ccd726a1.jpg" alt="Прогулка в парке">
+                    <div class="item-info">
+                        <h3>Прогулка в парке</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background:#000000"></div>
+                            <div class="color-dot" style="background: #6B4226"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="white">
+                    <img src="https://i.pinimg.com/736x/91/53/5b/91535b15be35f6cda2ec001eb0c6d773.jpg" alt="Романтический стиль">
+                    <div class="item-info">
+                        <h3>Романтический стиль</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="white,grey">
+                    <img src="https://i.pinimg.com/736x/38/ad/03/38ad0362a80f00478fe86bcad12bed79.jpg" alt="Минимализм">
+                    <div class="item-info">
+                        <h3>Минимализм</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                            <div class="color-dot" style="background: #817f79"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="brown,grey">
+                    <img src="https://i.pinimg.com/736x/6f/d6/ca/6fd6ca18835b73b2243222445b83bc6e.jpg" alt="Осенний уют">
+                    <div class="item-info">
+                        <h3>Осенний уют</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #817f79"></div>
+                            <div class="color-dot" style="background: #6B4226"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="pink,green">
+                    <img src="https://i.pinimg.com/736x/32/a9/3c/32a93c8ec0a41bb6101f995a4abcafb8.jpg" alt="Яркий акцент">
+                    <div class="item-info">
+                        <h3>Яркий акцент</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #D4A5A5"></div>
+                            <div class="color-dot" style="background: #4a9874"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="pink,beige,white">
+                    <img src="https://i.pinimg.com/736x/2a/e1/37/2ae1373b1ab40c131f00c2921caf3ce6.jpg" alt="Нежность">
+                    <div class="item-info">
+                        <h3>Нежность</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #D4A5A5"></div>
+                            <div class="color-dot" style="background: #b99042"></div>
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="black,beige">
+                    <img src="https://i.pinimg.com/736x/01/ce/80/01ce809f2023a2194bfb450c34358fe9.jpg" alt="Old money">
+                    <div class="item-info">
+                        <h3>Old money</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #000000"></div>
+                            <div class="color-dot" style="background: #b99042"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="green,white">
+                    <img src="https://i.pinimg.com/736x/8a/28/10/8a28107abeb85299ddd01318e45eb0ec.jpg" alt="Спортивный">
+                    <div class="item-info">
+                        <h3>Спортивный</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #4a9874"></div>
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="black,blue,white">
+                    <img src="https://i.pinimg.com/736x/75/45/dd/7545dd97715957fb0ce13c511c1d9ea6.jpg" alt="Гранж">
+                    <div class="item-info">
+                        <h3>Гранж</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #000000"></div>
+                            <div class="color-dot" style="background: #45B7D1"></div>
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wardrobe-item" data-colors="white,black">
+                    <img src="https://i.pinimg.com/736x/05/1f/e4/051fe43bd4036a4458d67f9f234fe381.jpg" alt="Неформальный">
+                    <div class="item-info">
+                        <h3>Неформальный</h3>
+                        <div class="item-colors">
+                            <div class="color-dot" style="background: #FFFFFF"></div>
+                            <div class="color-dot" style="background: #000000"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-items" id="noItems" style="display: none;">
+                Нет образов с выбранными цветами
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2024 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+        </div>
+    </footer>
+
+    <script>
+        const colorFilters = document.querySelectorAll('.color-filter');
+        const wardrobeItems = document.querySelectorAll('.wardrobe-item');
+        const noItemsMessage = document.getElementById('noItems');
+        const wardrobeGrid = document.getElementById('wardrobeGrid');
+        let activeFilters = [];
+
+        colorFilters.forEach(filter => {
+            filter.addEventListener('click', () => {
+                filter.classList.toggle('active');
+                const color = filter.dataset.color;
+
+                if (activeFilters.includes(color)) {
+                    activeFilters = activeFilters.filter(c => c !== color);
+                } else {
+                    activeFilters.push(color);
+                }
+                filterItems();
+            });
+        });
+
+        function filterItems() {
+            let visibleItems = 0;
+            wardrobeItems.forEach(item => {
+                const itemColors = item.dataset.colors.split(',');
+                const isVisible = activeFilters.length === 0 ||
+                                  activeFilters.some(filterColor => itemColors.includes(filterColor));
+                item.style.display = isVisible ? 'flex' : 'none';
+                if (isVisible) visibleItems++;
+            });
+
+            if (activeFilters.length > 0) {
+                wardrobeGrid.classList.add('filtered-view');
+            } else {
+                wardrobeGrid.classList.remove('filtered-view');
+            }
+
+            noItemsMessage.style.display = visibleItems === 0 ? 'block' : 'none';
+        }
+
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const setTheme = (theme) => {
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                if(themeToggle) themeToggle.textContent = '🌞';
+                if(mobileThemeToggle) mobileThemeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+                if(themeToggle) themeToggle.textContent = '🌓';
+                 if(mobileThemeToggle) mobileThemeToggle.textContent = '🌓';
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        if (currentTheme) {
+            setTheme(currentTheme);
+        } else if (prefersDark) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        const toggleThemeAction = () => {
+             let newTheme = (body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+            setTheme(newTheme);
+        }
+
+        if(themeToggle) {
+             themeToggle.addEventListener('click', toggleThemeAction);
+        }
+
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const desktopNav = document.querySelector('.header .nav');
+
+
+        if (burgerMenu && mobileNav && desktopNav) {
+            const closeMenu = () => {
+                 mobileNav.classList.remove('active');
+                 burgerMenu.innerHTML = '☰';
+                 burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'false');
+            }
+             const openMenu = () => {
+                 mobileNav.classList.add('active');
+                 burgerMenu.innerHTML = '✕';
+                 burgerMenu.setAttribute('aria-label', 'Закрыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'true');
+             }
+
+             if (mobileNav.innerHTML.trim() === '') {
+                 let mobileToggleExists = false;
+                desktopNav.querySelectorAll('.nav-link').forEach(link => {
+                     const mobileLink = link.cloneNode(true);
+                     mobileNav.appendChild(mobileLink);
+                 });
+                 const headerToggle = document.getElementById('themeToggle');
+                 if (headerToggle) {
+                     const mobileToggle = headerToggle.cloneNode(true);
+                     mobileToggle.id = 'mobileThemeToggle';
+                     mobileNav.appendChild(mobileToggle);
+                     mobileToggle.addEventListener('click', toggleThemeAction);
+                     mobileThemeToggleExists = true; 
+                 }
+               
+                 const finalMobileToggle = document.getElementById('mobileThemeToggle');
+                 if(finalMobileToggle){
+                     mobileThemeToggle = finalMobileToggle; 
+                 }
+
+             }
+
+
+            burgerMenu.addEventListener('click', () => {
+                const isActive = mobileNav.classList.contains('active');
+                if (isActive) { closeMenu(); } else { openMenu(); }
+            });
+
+            mobileNav.querySelectorAll('.nav-link').forEach(link => {
+                 link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('click', (event) => {
+                if (mobileNav.classList.contains('active') && !mobileNav.contains(event.target) && !burgerMenu.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+        } else {
+            console.warn("Required elements for menu not found.");
+        }
+
+        filterItems();
+
+    </script>
+</body>
+</html>

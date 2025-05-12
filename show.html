@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - Показы Мод</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #C85A3E;
+            --neutral-light: #F7F7F7;
+            --neutral-medium: #EAEAEA;
+            --neutral-dark: #BDBDBD;
+            --dark: #212121;
+            --bg-color: var(--neutral-light);
+            --text-color: #333333;
+            --text-muted: #666666;
+            --header-bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --footer-bg: var(--dark);
+            --footer-text: #E0E0E0;
+            --border-color: var(--neutral-medium);
+            --link-color: var(--terracotta);
+            --pill-button-bg: var(--neutral-medium);
+            --pill-button-text: var(--text-color);
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --neutral-light: #1E1E1E;
+            --neutral-medium: #2C2C2C;
+            --neutral-dark: #555555;
+            --dark: #F0F0F0;
+            --bg-color: #1A1A1A;
+            --text-color: #E0E0E0;
+            --text-muted: #AAAAAA;
+            --header-bg: #121212;
+            --card-bg: #121212;
+            --footer-bg: var(--neutral-light);
+            --footer-text: #BDBDBD;
+            --border-color: #333333;
+            --link-color: #E57373;
+            --pill-button-bg: var(--neutral-medium);
+            --pill-button-text: var(--text-color);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .wrapper {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--header-bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: nowrap;
+            gap: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.3s, border-color 0.3s;
+            white-space: nowrap;
+            padding: 8px 4px;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active {
+            color: var(--link-color);
+            border-bottom-color: var(--link-color);
+        }
+        .nav-link:hover {
+            color: var(--link-color);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+            padding: 5px;
+            display: block;
+        }
+        .theme-toggle:hover {
+            color: var(--text-color);
+        }
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .mobile-nav-container {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            padding: 0;
+            z-index: 999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid var(--border-color);
+        }
+        .mobile-nav-container.active {
+            display: flex;
+        }
+        .mobile-nav-container .nav-link {
+             width: 100%;
+             text-align: left;
+             padding: 15px 30px;
+             border-bottom: 1px solid var(--border-color);
+             font-size: 1em;
+        }
+         .mobile-nav-container .nav-link:last-child {
+             border-bottom: none;
+         }
+         .mobile-nav-container .nav-link.active {
+             border-bottom-color: var(--link-color);
+         }
+
+        .shows-page-section {
+            padding: 60px 0;
+        }
+        .shows-page-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            transition: color 0.3s;
+            letter-spacing: -0.5px;
+        }
+
+        .show-nav-container {
+             border-top: 1px solid var(--border-color);
+             border-bottom: 1px solid var(--border-color);
+             margin-bottom: 60px;
+             overflow-x: auto;
+             padding: 15px 0;
+             -ms-overflow-style: none;
+             scrollbar-width: none;
+        }
+        .show-nav-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .show-nav {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 15px;
+            list-style: none;
+            width: max-content;
+            margin: 0 auto;
+        }
+        .show-nav a {
+            text-decoration: none;
+            color: var(--pill-button-text);
+            background-color: var(--pill-button-bg);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+            border-bottom: none;
+             border: 1px solid transparent;
+        }
+        .show-nav a:hover {
+            background-color: var(--neutral-dark);
+            color: var(--dark);
+             border-bottom-color: transparent;
+             transform: translateY(-1px);
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+         [data-theme="dark"] .show-nav a:hover {
+             background-color: var(--neutral-dark);
+             color: var(--text-color);
+             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+         }
+
+        .intro-block {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .intro-figure {
+             flex: 0 0 320px;
+            margin: 0;
+        }
+        .intro-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+            border: 1px solid var(--border-color);
+             transition: border-color 0.3s;
+        }
+        .intro-text-content {
+             flex: 1;
+            text-align: left;
+            color: var(--text-color);
+             font-size: 1.05em;
+             line-height: 1.8;
+             transition: color 0.3s;
+        }
+         .intro-text-content p {
+            margin-bottom: 1em;
+         }
+         .intro-text-content p:last-child {
+            margin-bottom: 0;
+         }
+
+        .event-section {
+            background: var(--card-bg);
+            padding: 35px 30px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+            box-shadow: none;
+        }
+        .event-section::before {
+             display: block;
+             content: " ";
+             margin-top: -100px;
+             height: 100px;
+             visibility: hidden;
+             pointer-events: none;
+         }
+        .event-section h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            border-bottom: none;
+            padding-bottom: 0;
+            display: block;
+        }
+        .event-section p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .event-figure {
+            margin: 30px 0;
+            max-width: none;
+        }
+        .event-image {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 6px;
+            display: block;
+             border: 1px solid var(--border-color);
+             transition: border-color 0.3s;
+        }
+        .event-figcaption {
+            text-align: left;
+            font-size: 0.85em;
+            color: var(--text-muted);
+            opacity: 1;
+            padding-top: 10px;
+            transition: color 0.3s;
+        }
+        .event-section ul {
+            list-style-type: disc;
+            list-style-position: outside;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        .event-section li {
+            margin-bottom: 12px;
+            line-height: 1.7;
+            padding-left: 8px;
+        }
+        .event-section li::marker {
+            color: var(--terracotta);
+            transition: color 0.3s;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 30px; 
+            transition: background-color 0.3s, color 0.3s;
+            border-top: 1px solid var(--border-color);
+        }
+        .event-section:last-of-type {
+            margin-bottom: 0; 
+        }
+
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .contact-info {
+            font-size: 0.9em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            opacity: 0.8;
+        }
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        @media (max-width: 992px) {
+             .wrapper {
+                 max-width: 90%;
+                 padding: 0 20px;
+             }
+             .header-right {
+                 gap: 10px;
+             }
+             .nav {
+                 gap: 15px;
+             }
+             .nav-link {
+                 font-size: 0.9em;
+             }
+             .logo {
+                 font-size: 1.6rem;
+             }
+             .intro-figure {
+                 flex-basis: 280px;
+             }
+        }
+        @media (max-width: 767px) {
+            body {
+                font-size: 15px;
+            }
+            .wrapper {
+                padding: 0 20px;
+            }
+            .header {
+                padding: 12px 20px;
+            }
+            .nav {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .header-right {
+                gap: 10px;
+            }
+
+            .shows-page-section {
+                padding: 40px 0;
+            }
+            .shows-page-title {
+                font-size: 2.1rem;
+                margin-bottom: 30px;
+            }
+            .show-nav-container {
+                margin-bottom: 40px;
+            }
+            .show-nav {
+                gap: 8px;
+                padding: 0 10px;
+            }
+            .show-nav a {
+                font-size: 0.85em;
+                padding: 7px 14px;
+            }
+
+            .intro-block {
+                flex-direction: column;
+                gap: 25px;
+                padding: 25px 20px;
+            }
+            .intro-figure {
+                 flex-basis: auto;
+                 max-width: 300px;
+                 width: 80%;
+                 margin: 0 auto;
+                 order: -1;
+            }
+            .intro-image {
+                aspect-ratio: 4/3;
+            }
+            .intro-text-content {
+                flex-basis: auto;
+                font-size: 1em;
+                text-align: center;
+            }
+
+            .event-section {
+                padding: 25px 20px;
+            }
+            .event-section h2 {
+                font-size: 1.45em;
+                text-align: center;
+            }
+            .event-section p {
+                font-size: 0.95em;
+            }
+            .event-image {
+                aspect-ratio: 3 / 2;
+            }
+            .event-section::before {
+                margin-top: -80px;
+                height: 80px;
+            }
+            .footer {
+                padding: 40px 0;
+            }
+            .contact-info {
+                font-size: 0.85em;
+                gap: 10px 20px;
+            }
+        }
+         @media (max-width: 480px) {
+             .wrapper {
+                 padding: 0 15px;
+             }
+             .header {
+                 padding: 10px 15px;
+             }
+             .header-right {
+                 gap: 5px;
+             }
+             .mobile-nav-container .nav-link {
+                 padding: 12px 20px;
+             }
+
+             .event-section {
+                 padding: 20px 15px;
+             }
+             .event-section h2 {
+                 font-size: 1.3em;
+             }
+             .show-nav {
+                 gap: 6px;
+             }
+             .show-nav a {
+                 font-size: 0.8rem;
+                 padding: 6px 12px;
+             }
+             .intro-block {
+                 padding: 20px 15px;
+             }
+             .intro-figure {
+                 max-width: 100%;
+                 width: 100%;
+             }
+             .intro-text-content {
+                 text-align: left;
+             }
+             .event-figure {
+                 margin: 20px 0;
+             }
+             .event-image {
+                 max-width: 100%;
+             }
+             .event-figcaption {
+                 font-size: 0.8em;
+             }
+             .event-section ul {
+                 margin-left: 15px;
+             }
+         }
+    </style>
+</head>
+<body>
+    <header class="header">
+         <div class="wrapper" style="display: contents;">
+            <a href="#" class="logo">EcoStyle</a>
+            <div class="header-right">
+                <nav class="nav">
+                    <a href="news.html" class="nav-link">Новости</a>
+                    <a href="wardrobe.html" class="nav-link">Гардероб</a>
+                    <a href="history.html" class="nav-link">История</a>
+                    <a href="about_us.html" class="nav-link">О нас</a>
+                    <a href="brands.html" class="nav-link">Бренды</a>
+                    <a href="shows.html" class="nav-link active">Показы</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌓</button>
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+            </div>
+         </div>
+         <nav class="mobile-nav-container" id="mobileNav">
+         </nav>
+    </header>
+
+    <main class="wrapper">
+        <section class="shows-page-section">
+            <h1 class="shows-page-title">Магия Модных Показов</h1>
+
+                <div class="show-nav-container">
+                <nav class="show-nav" aria-label="Навигация по разделам">
+                    <a href="#fashion-weeks">Недели моды</a>
+                    <a href="#haute-couture">Haute сouture</a>
+                    <a href="#spectacle">Шоу-спектакль</a>
+                    <a href="#mens-weeks">Мужские недели</a>
+                    <a href="#cruise-shows">Круизные показы</a>
+                    <a href="#impact">Влияние и цель</a>
+                </nav>
+            </div>
+            <div class="intro-block">
+                <figure class="intro-figure">
+                    <img src="https://compass-media.vogue.it/photos/6333e9bc7d2973d692f3e23c/2:3/w_2560,c_limit/00_DIOR_RTW-SS23_SHOW%20FINALE%20©%20Adrien%20Dirand%20for%20Dior.jpg" alt="Закулисье модного показа" class="intro-image">
+                </figure>
+                <div class="intro-text-content">
+                    <p>Показ мод – это кульминация творческого процесса дизайнера, эфемерный момент, когда одежда оживает. Это больше, чем просто дефиле; это театр, искусство, заявление и мощный двигатель индустрии, определяющий, что мы будем носить завтра.</p>
+                    <p> От кутюрных дефиле в Париже до авангардных шоу в Лондоне – погрузимся в этот захватывающий мир.</p>
+                </div>
+            </div>
+
+
+            <article id="fashion-weeks" class="event-section">
+                <h2>Недели моды: пульс индустрии</h2>
+                <p>Четыре раза в год главные модные столицы – Нью-Йорк, Лондон, Милан и Париж – становятся эпицентром внимания. Здесь бренды Prêt-à-Porter ("готовой одежды") представляют свое видение грядущего сезона, задавая глобальные тренды.</p>
+                <figure class="event-figure">
+                    <img src="https://i.pinimg.com/originals/35/c3/b9/35c3b90afcda35d2d2ac3a6b2ec3ec83.jpg" alt="Стритстайл во время Недели Моды в Париже" class="event-image">
+                    <figcaption class="event-figcaption">Улицы модных столиц во время показов превращаются в отдельный подиум.</figcaption>
+                </figure>
+                <ul>
+                    <li><strong>Нью-Йорк:</strong> Диктует тренды коммерческой, динамичной моды, часто с акцентом на спорт и американскую классику.</li>
+                    <li><strong>Лондон:</strong> Территория смелых идей, авангарда и молодых талантов, родина многих субкультурных течений.</li>
+                    <li><strong>Милан:</strong> Воплощение итальянской роскоши, мастерства работы с кожей, сексуальности и безупречного качества.</li>
+                    <li><strong>Париж:</strong> Исторический центр моды, где проходят показы самых влиятельных домов и Неделя высокой моды.</li>
+                </ul>
+            </article>
+
+            <article id="haute-couture" class="event-section">
+                <h2>Haute Couture: за гранью возможного</h2>
+                <p>Высокая мода – это защищенное французским законодательством понятие, доступное лишь избранным домам. Показы Haute Couture в Париже – это демонстрация недостижимого мастерства, фантазии и часов кропотливого ручного труда.</p>
+                <figure class="event-figure">
+                     <img src="https://cdn.karar.com/news/1602778.jpg" alt="Фантазийный образ с показа Iris van Herpen Haute Couture" class="event-image">
+                     <figcaption class="event-figcaption">Iris van Herpen раздвигает границы кутюра, сочетая инновационные технологии и уникальные ремесленные техники.</figcaption>
+                 </figure>
+                <p>Это не столько одежда для реальной жизни, сколько произведение искусства, мечта, воплощенная в ткани, вышивке и уникальном крое. Кутюр задает планку для всей индустрии и служит неиссякаемым источником вдохновения.</p>
+            </article>
+
+            <article id="spectacle" class="event-section">
+                <h2>Шоу как спектакль: погружение в мир бренда</h2>
+                <p>Показ – это возможность создать уникальную атмосферу и рассказать захватывающую историю коллекции. Ведущие бренды превращают дефиле в незабываемые шоу с продуманными до мелочей декорациями, саундтреком и кастингом.</p>
+                 <figure class="event-figure">
+                     <img src="https://graziamagazine.com/wp-content/uploads/2023/07/GettyImages-1519795114.jpg" alt="Показ Fendi у фонтана Треви в Риме" class="event-image">
+                    <figcaption class="event-figcaption">Незабываемый показ Fendi Haute Couture (90-летие дома) прямо на прозрачном подиуме над фонтаном Треви.</figcaption>
+                 </figure>
+                <p>Такие шоу создают мощный эмоциональный отклик, генерируют вирусный контент и укрепляют имидж бренда, делая его больше, чем просто производителем одежды. Это инвестиция в мечту и лояльность аудитории.</p>
+            </article>
+
+            <article id="mens-weeks" class="event-section">
+                <h2>Мужские недели моды: новые горизонты</h2>
+                <p>Мужская мода давно утвердилась как самостоятельное и динамичное направление. Собственные Недели в Лондоне, Флоренции (Pitti Uomo), Милане и Париже демонстрируют весь спектр мужского стиля – от строгой классики до смелых экспериментов.</p>
+                 <figure class="event-figure">
+                     <img src="https://avatars.mds.yandex.net/i?id=9494b07cad99424f5bf48fe5cd8f83eb_l-4103093-images-thumbs&n=13" alt="Смелый образ с мужского показа Gucci" class="event-image">
+                     <figcaption class="event-figcaption">Современные мужские показы активно исследуют гендерную флюидность и новые интерпретации маскулинности.</figcaption>
+                 </figure>
+                <p>Здесь формируются тренды на костюмы, верхнюю одежду, трикотаж и аксессуары, а также отражаются социокультурные изменения через призму мужского гардероба. Pitti Uomo во Флоренции остается важнейшей выставкой для ценителей классического стиля.</p>
+            </article>
+
+            <article id="cruise-shows" class="event-section">
+                <h2>Круизные показы: мода как путешествие</h2>
+                <p>Круизные (Resort) коллекции, представляемые между основными сезонами, давно перестали быть просто одеждой для отпуска. Это важные коммерческие линейки, а их показы часто превращаются в глобальные "Destination Shows".</p>
+                 <figure class="event-figure">
+                     <img src="https://i.pinimg.com/originals/be/23/9a/be239aa1993f789ba65c464bf9c3ad12.jpg" alt="Показ Louis Vuitton Cruise в Киото, Япония" class="event-image">
+                     <figcaption class="event-figcaption">Louis Vuitton Cruise Show 2018 в футуристическом Miho Museum, Киото (архитектор И.М. Пей).</figcaption>
+                 </figure>
+                <p>Ведущие дома выбирают для таких показов самые невероятные локации, превращая демонстрацию одежды в уникальный опыт и путешествие для приглашенных гостей и онлайн-зрителей. Это мощный маркетинговый инструмент, создающий вокруг бренда ауру приключения и эксклюзивности.</p>
+            </article>
+
+            <article id="impact" class="event-section">
+                <h2>Влияние и цель модных показов</h2>
+                <p>Зачем нужны модные показы в эпоху мгновенного распространения информации? Их роль многогранна и критически важна для экосистемы моды:</p>
+                 <figure class="event-figure">
+                     <img src="https://i.pinimg.com/originals/ae/2a/b5/ae2ab51cda82c4de7fab35eb1a118bab.jpg" alt="Фотографы и пресса на показе мод" class="event-image">
+                     <figcaption class="event-figcaption">Показы – это концентрированный инфоповод, привлекающий внимание СМИ, байеров и инфлюенсеров.</figcaption>
+                 </figure>
+                <ul>
+                    <li><strong>Задание трендов:</strong> Концентрированная презентация новых идей, которые затем адаптируются и распространяются по всей индустрии.</li>
+                    <li><strong>Медийный охват:</strong> Создание ажиотажа, генерация публикаций и вирусного контента, укрепление позиций бренда в инфополе.</li>
+                    <li><strong>Формирование имиджа:</strong> Трансляция эстетики, ценностей и нарратива бренда через целостное визуальное и эмоциональное переживание.</li>
+                    <li><strong>Бизнес-инструмент:</strong> Ключевое событие для оптовых покупателей (байеров), формирующих заказы для ретейлеров.</li>
+                    <li><strong>Платформа для креатива:</strong> Пространство для чистого дизайнерского самовыражения и демонстрации инноваций.</li>
+                </ul>
+            </article>
+
+            <article id="digital-era" class="event-section">
+                <h2>Цифровая эра и будущее Показов</h2>
+                <p>Пандемия ускорила цифровую трансформацию, но тренд наметился и раньше. Сегодня физические дефиле сосуществуют с новыми форматами, расширяя аудиторию и возможности для креатива:</p>
+                <figure class="event-figure">
+                     <img src="https://www.uca.ac.uk/media/marketing-media/news/news-2021/Digital-fashion-news-header-image-3.jpg" alt="Виртуальный аватар на цифровом показе" class="event-image">
+                     <figcaption class="event-figcaption">Виртуальные модели и метавселенные открывают новые горизонты для модных презентаций.</figcaption>
+                 </figure>
+                 <ul>
+                     <li><strong>Live Streams & Video on Demand:</strong> Демократизация доступа и возможность пересмотреть шоу.</li>
+                     <li><strong>Модные фильмы:</strong> Создание более глубоких нарративов и атмосферы, чем на подиуме.</li>
+                     <li><strong>Интерактивные платформы:</strong> Вовлечение аудитории через 3D-модели, геймификацию, виртуальные шоурумы.</li>
+                     <li><strong>VR/AR и метавселенные:</strong> Эксперименты с полным погружением и новыми формами цифрового владения модой (NFT).</li>
+                 </ul>
+                 <p>Будущее, вероятно, за гибридными форматами ("phygital"), умело сочетающими эксклюзивность и магию живых событий с глобальным охватом и интерактивностью цифровых платформ.</p>
+            </article>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2025 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const setTheme = (theme) => {
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌓';
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        if (currentTheme) {
+            setTheme(currentTheme);
+        } else if (prefersDark) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            let newTheme = (body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const desktopNav = document.querySelector('.header .nav');
+
+        if (burgerMenu && mobileNav && desktopNav) {
+            const closeMenu = () => {
+                 mobileNav.classList.remove('active');
+                 burgerMenu.innerHTML = '☰';
+                 burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'false');
+            }
+             const openMenu = () => {
+                 mobileNav.classList.add('active');
+                 burgerMenu.innerHTML = '✕';
+                 burgerMenu.setAttribute('aria-label', 'Закрыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'true');
+             }
+
+             if (mobileNav.innerHTML.trim() === '') {
+                desktopNav.querySelectorAll('.nav-link').forEach(link => {
+                    const mobileLink = link.cloneNode(true);
+                    if (link.classList.contains('active')) {
+                         mobileLink.classList.add('active');
+                    } else {
+                         mobileLink.classList.remove('active');
+                    }
+                    mobileNav.appendChild(mobileLink);
+                });
+             }
+
+            burgerMenu.addEventListener('click', () => {
+                const isActive = mobileNav.classList.contains('active');
+                if (isActive) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            mobileNav.querySelectorAll('.nav-link').forEach(link => {
+                 link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('click', (event) => {
+                if (mobileNav.classList.contains('active') && !mobileNav.contains(event.target) && !burgerMenu.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+        } else {
+            console.warn("Required elements for menu not found (burger, mobileNav, desktopNav).");
+        }
+    </script>
+</body>
+</html>

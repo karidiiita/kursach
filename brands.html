@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - Бренды</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* Общие стили и переменные (из предыдущих файлов) */
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #CC6B4E;
+            --neutral: #F5F5F5;
+            --dark: #333333;
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --header-bg: white;
+            --card-bg: white;
+            --footer-bg: #333333;
+            --footer-text: white;
+            --link-bg: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1E1E1E;
+            --card-bg: #2D2D2D;
+            --footer-bg: #1E1E1E;
+            --footer-text: #e0e0e0;
+            --neutral: #2D2D2D;
+            --dark: #e0e0e0;
+            --link-bg: #3a3a3a;
+        }
+
+        /* Общие стили */
+        * { margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        html { 
+            scroll-behavior: smooth; 
+        } 
+        body {
+            background: var(--bg-color); 
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+        .wrapper { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+        /* Шапка (стандартная) */
+        .header {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 15px 20px; 
+            background: var(--header-bg); 
+            position: relative;
+            flex-wrap: wrap; gap: 15px; 
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+        .nav { 
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            transition: background-color 0.3s; }
+        .nav-link {
+            text-decoration: none; 
+            color: var(--text-color); 
+            font-weight: 500;
+            transition: color 0.3s; 
+            white-space: nowrap;
+        }
+        .nav-link.active 
+        { 
+            color: var(--terracotta); 
+            font-weight: 700; 
+        }
+        .nav-link:hover 
+        { 
+            color: var(--terracotta); }
+        .theme-toggle {
+            background: none; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 1.2rem;
+            color: var(--text-color); 
+            transition: color 0.3s;
+        }
+        .burger-menu {
+            display: none; 
+            cursor: pointer; 
+            padding: 5px; 
+            border: none; 
+            background: none;
+            font-size: 2rem; 
+            color: var(--text-color); 
+            order: 3; 
+            transition: color 0.3s;
+        }
+
+        /* Стили для страницы брендов */
+        .brands-page-section 
+        { 
+            padding: 40px 0; 
+        }
+        .brands-page-title {
+            text-align: center; 
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif; 
+            font-size: 2.5rem;
+            color: var(--dark); 
+            transition: color 0.3s;
+        }
+
+        /* Навигация по якорям */
+        .brand-nav {
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 10px;
+            margin-bottom: 40px; 
+            padding: 10px; 
+            list-style: none;
+        }
+        .brand-nav a {
+            text-decoration: none; 
+            color: var(--text-color); 
+            background-color: var(--link-bg);
+            padding: 8px 15px; 
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            font-weight: 500;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        .brand-nav a:hover {
+            background-color: var(--terracotta); 
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Секция одного бренда */
+        .brand-section {
+            background: var(--card-bg); 
+            padding: 25px; 
+            margin-bottom: 30px;
+            border-radius: 10px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        /* Offset для якоря */
+        .brand-section::before {
+             display: block; 
+             content: " "; 
+             margin-top: -80px; 
+             height: 80px;
+             visibility: hidden; 
+             pointer-events: none;
+         }
+        .brand-section h2 {
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            color: var(--terracotta);
+            margin-bottom: 20px; 
+            transition: color 0.3s;
+            border-bottom: 1px solid var(--neutral); 
+            padding-bottom: 10px;
+        }
+        .brand-content 
+        { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 30px; }
+
+    
+        .brand-image {
+            flex: 1 1 300px; 
+            max-width: 400px;
+            min-width: 250px; 
+            height: auto; 
+            aspect-ratio: 4 / 3; 
+            object-fit: cover; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .brand-description {
+            flex: 1 1 400px; 
+            min-width: 300px;
+        }
+        .brand-description p {
+            font-size: 1rem; 
+            line-height: 1.7; 
+            margin-bottom: 15px;
+            color: var(--text-color); 
+            transition: color 0.3s;
+        }
+         .brand-description a {
+             color: var(--eco-green); 
+             font-weight: 500; 
+             text-decoration: none;
+         }
+          .brand-description a:hover 
+          { 
+            text-decoration: underline; 
+        }
+
+        .footer {
+            background: var(--footer-bg); 
+            color: var(--footer-text);
+            padding: 30px 0; 
+            text-align: center; 
+            margin-top: 40px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .footer p { margin-bottom: 15px; }
+        .contact-info {
+            font-size: 0.9rem; 
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center; 
+            gap: 10px 20px;
+        }
+        .contact-info a 
+        { 
+        color: var(--footer-text); 
+        text-decoration: none; 
+        transition: color 0.3s; }
+
+        .contact-info a:hover { 
+            text-decoration: underline; 
+        }
+
+        /* Медиа-запросы */
+        @media (max-width: 992px) {
+             .nav { 
+                gap: 15px; 
+            } 
+             .nav-link { 
+                font-size: 0.9rem; 
+            } 
+             .logo { 
+                font-size: 1.6rem; 
+            }
+        }
+        @media (max-width: 767px) {
+            .header {
+                 justify-content: space-between; 
+                }
+            .logo { 
+                width: auto; 
+                text-align: left; 
+                margin-bottom: 0; 
+            }
+            .nav {
+                display: none; 
+                flex-direction: column; 
+                position: absolute;
+                top: 100%; 
+                left: 0; width: 100%; 
+                background: var(--header-bg);
+                padding: 15px 20px; 
+                align-items: flex-start;
+                z-index: 1000;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                 border-top: 1px solid var(--neutral);
+            }
+            .nav.active { 
+                display: flex; 
+            }
+            .nav .theme-toggle { 
+                margin-top: 10px; 
+                align-self: flex-start; 
+            }
+            .burger-menu { 
+                display: block; 
+            }
+
+            .brands-page-title { 
+                font-size: 2rem; 
+                margin-bottom: 25px; 
+            }
+            .brand-nav {
+                 margin-bottom: 30px; gap: 8px; 
+                }
+            .brand-nav a { 
+                font-size: 0.85rem; 
+                padding: 6px 12px; 
+            }
+
+            .brand-section { 
+                padding: 20px; 
+            }
+            .brand-section h2 { 
+                font-size: 1.6rem; 
+            }
+            .brand-content { 
+                flex-direction: column; 
+                gap: 20px; 
+            }
+            .brand-image {
+                max-width: 100%;
+                aspect-ratio: 16/9; 
+                min-width: unset;
+                margin: 0 auto; 
+            }
+            .brand-description { 
+                min-width: unset;
+            }
+            .brand-description p { 
+                font-size: 0.95rem; 
+            }
+            .brand-section::before {
+                 margin-top: -70px; 
+                 height: 70px; 
+                } 
+            .footer { 
+                padding: 20px 0; 
+            }
+            .contact-info { 
+                font-size: 0.85rem;
+                gap: 8px 15px;
+            }
+        }
+         @media (max-width: 480px) {
+             .wrapper { padding: 0 15px; }
+             .brand-section { padding: 15px; }
+             .brand-section h2 { font-size: 1.4rem; }
+             .brand-nav a { font-size: 0.8rem; padding: 5px 10px; }
+             .brand-image { aspect-ratio: 3/2; } 
+         }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+         <div class="wrapper" style="display: contents;">
+            <a href="#" class="logo">EcoStyle</a>
+            <nav class="nav">
+                <a href="news.html" class="nav-link">Новости</a>
+                <a href="wardrobe.html" class="nav-link">Гардероб</a>
+                <a href="history.html" class="nav-link">История</a>
+                <a href="about_us.html" class="nav-link">О нас</a>
+                <a href="show.html" class="nav-link">Показы</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <button class="theme-toggle" id="themeToggle">🌓</button>
+            </nav>
+            <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+         </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="wrapper">
+        <section class="brands-page-section">
+            <h1 class="brands-page-title">Знаковые Модные Бренды</h1>
+
+            <!-- Навигация по брендам (якоря) -->
+            <nav class="brand-nav" aria-label="Навигация по брендам">
+                <a href="#chanel">Chanel</a>
+                <a href="#dior">Dior</a>
+                <a href="#gucci">Gucci</a>
+                <a href="#prada">Prada</a>
+                <a href="#louisvuitton">Louis Vuitton</a>
+                <a href="#versace">Versace</a>
+            </nav>
+
+            <!-- Секция Chanel -->
+            <article id="chanel" class="brand-section">
+                <h2>Chanel</h2>
+                <div class="brand-content">
+                 
+                    <img src="https://avatars.mds.yandex.net/i?id=b7b7ce6ed914c9d61bb20316efbf1db1_l-9067891-images-thumbs&n=13" alt="Бутик Chanel или знаковый образ" class="brand-image">
+                    <div class="brand-description">
+                        <p>Основанный легендарной Габриэль "Коко" Шанель в 1910 году в Париже, дом Chanel стал символом революции в женской моде. Коко освободила женщин от сковывающих корсетов и пышных юбок, предложив им элегантность, основанную на комфорте и простоте линий, заимствованных из мужского гардероба. Она ввела в моду трикотаж, тельняшки, брюки для женщин и, конечно, "маленькое черное платье", ставшее универсальным символом стиля.</p>
+                        <p>После Коко, Карл Лагерфельд возглавлял дом на протяжении десятилетий (с 1983 по 2019 год), виртуозно интерпретируя коды Chanel – твид, жемчуг, камелии, логотип CC, стеганую кожу – и адаптируя их к современности, сохраняя при этом дух основательницы. Он превратил показы Chanel в грандиозные спектакли.</p>
+                        <p>Сегодня под руководством Виржини Виар Chanel остается эталоном французской роскоши, сочетая богатое наследие с современными тенденциями. Бренд славится не только одеждой Haute Couture и Prêt-à-Porter, но и культовыми сумками (как 2.55 и Classic Flap), обувью, аксессуарами и парфюмерией, включая бестселлер Chanel No. 5.</p>
+                        <p><a href="https://www.chanel.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Секция Dior -->
+            <article id="dior" class="brand-section">
+                <h2>Dior</h2>
+                 <div class="brand-content">
+              
+                    <img src="https://i.pinimg.com/originals/a2/6d/ff/a26dff7f6fcfabddd497124089030334.jpg" alt="Показ Dior или знаковый образ New Look" class="brand-image">
+                     <div class="brand-description">
+                        <p>Дом Christian Dior был основан в Париже в 1946 году. Всего год спустя, в 1947-м, Кристиан Диор представил свою первую коллекцию, мгновенно названную американской прессой "New Look". Этот стиль стал антитезой строгой моде военных лет: он воспевал женственность с помощью осиной талии, пышной юбки длиной до середины икры и покатых плеч. New Look вернул в моду роскошь, элегантность и мечту.</p>
+                        <p>После внезапной смерти Диора в 1957 году, дом возглавляли выдающиеся дизайнеры: молодой Ив Сен-Лоран, затем Марк Боан, Джанфранко Ферре, эпатажный Джон Гальяно, минималист Раф Симонс. Каждый из них привнес свое видение, сохраняя при этом ДНК бренда – элегантность, архитектурный крой и внимание к деталям.</p>
+                        <p>С 2016 года креативным директором женских линий является Мария Грация Кьюри, первая женщина на этом посту. Она привнесла феминистский взгляд и сделала акцент на более практичные и современные силуэты, не забывая о богатом наследии дома. Dior сегодня – это не только высокая мода и готовая одежда, но и знаменитые сумки (Lady Dior, Saddle Bag), косметика и парфюмерия (J'adore, Miss Dior, Sauvage).</p>
+                         <p><a href="https://www.dior.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Секция Gucci -->
+            <article id="gucci" class="brand-section">
+                <h2>Gucci</h2>
+                <div class="brand-content">
+                    
+                    <img src="https://i.pinimg.com/736x/b4/a1/83/b4a18323bfba550d6d0d73626706d26e--gucci-spring-window-ideas.jpg" alt="Кампания Gucci или знаковый продукт" class="brand-image">
+                    <div class="brand-description">
+                        <p>История Gucci началась во Флоренции в 1921 году, когда Гуччио Гуччи открыл магазин кожаных изделий и багажа, вдохновившись эстетикой английской аристократии. Бренд быстро завоевал популярность благодаря высочайшему качеству и мастерству. Знаковые элементы, такие как конная уздечка (Horsebit) и зелено-красная лента (Web), появились еще в первой половине XX века.</p>
+                        <p>Вторая половина века была бурной: международная экспансия, семейные распри, взлеты и падения. Возрождение бренда в 1990-х связано с именем Тома Форда, который привнес в Gucci гламур, сексуальность и провокацию. Его смелые рекламные кампании и облегающие силуэты сделали бренд невероятно популярным.</p>
+                        <p>Настоящий ренессанс Gucci пережил с приходом Алессандро Микеле в 2015 году. Он полностью переосмыслил эстетику бренда, сделав ставку на эклектику, винтаж, гендерную флюидность, максимализм и интеллектуальную игру с символами. Его коллекции, полные ярких принтов, вышивок и необычных сочетаний, покорили новое поколение модников. Gucci сегодня – один из самых влиятельных и обсуждаемых брендов в мире.</p>
+                        <p><a href="https://www.gucci.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Секция Prada -->
+             <article id="prada" class="brand-section">
+                <h2>Prada</h2>
+                 <div class="brand-content">
+
+                    <img src="https://i.pinimg.com/474x/4f/54/25/4f54251877b32c0bc22c2fb3ec816808.jpg?nii=t" alt="Минималистичный образ Prada или нейлоновая сумка" class="brand-image">
+                     <div class="brand-description">
+                        <p>Основанный в 1913 году в Милане Марио Прада, бренд изначально назывался "Fratelli Prada" ("Братья Прада") и специализировался на роскошных изделиях из кожи, сумках и дорожных аксессуарах для состоятельной клиентуры. Долгое время он оставался уважаемым, но относительно консервативным.</p>
+                        <p>Все изменилось в 1978 году, когда управление компанией взяла на себя внучка основателя – Миучча Прада. Обладая нетрадиционным взглядом на моду и степенью по политологии, она совершила революцию. В 1985 году она представила линию сумок и рюкзаков из черного промышленного нейлона Pocono – материала, который ранее считался утилитарным, а не люксовым. Это был смелый шаг, который определил дальнейший путь Prada.</p>
+                        <p>Стиль Prada часто описывают как интеллектуальный, минималистичный, концептуальный, иногда "уродливый шик" (ugly chic). Миучча играет с контрастами, сочетает простые силуэты с необычными материалами, исследует темы униформы, индустриализации и буржуазности. Бренд известен своими чистыми линиями, строгими пальто, юбками А-силуэта, обувью на массивной подошве и, конечно, культовым треугольным логотипом. С 2020 года Миучча Прада делит пост креативного директора с Рафом Симонсом.</p>
+                         <p><a href="https://www.prada.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+             <!-- Секция Louis Vuitton -->
+            <article id="louisvuitton" class="brand-section">
+                <h2>Louis Vuitton</h2>
+                 <div class="brand-content">
+                     
+                    <img src="https://avatars.dzeninfra.ru/get-zen_doc/3822405/pub_60574bf492e35b59431a673f_60574c46277cb60abf64ddde/scale_1200" alt="Изделие Louis Vuitton с монограммой или показ" class="brand-image">
+                     <div class="brand-description">
+                        <p>История Louis Vuitton началась в 1854 году, когда Луи Вюиттон, мастер по изготовлению сундуков, открыл свой первый магазин в Париже. Он произвел революцию в мире путешествий, создав плоские, легкие и водонепроницаемые сундуки, которые можно было ставить друг на друга – в отличие от распространенных тогда сундуков с выпуклой крышкой. Для защиты от подделок были разработаны знаменитые узоры: полоска Rayée, клетка Damier Ebene и, конечно, легендарная Monogram Canvas с инициалами LV и цветочными мотивами (создана сыном Луи, Жоржем, в 1896 году).</p>
+                        <p>Долгое время Louis Vuitton оставался прежде всего производителем роскошного багажа и изделий из кожи. В 1997 году в истории бренда началась новая глава с приходом Марка Джейкобса на пост креативного директора. Он запустил первые линии готовой одежды Prêt-à-Porter для женщин и мужчин, вдохнув в консервативный дом новую жизнь. Джейкобс прославился смелыми коллаборациями с современными художниками (Стивеном Спраузом, Такаси Мураками, Яёи Кусамой), которые переосмысливали классическую монограмму.</p>
+                        <p>После Джейкобса женские коллекции возглавил Николя Жескьер (с 2013), известный своим футуристичным видением и сложным кроем. Мужские коллекции долгое время создавал Ким Джонс, а затем Вирджил Абло (с 2018 по 2021), привнесший в бренд эстетику стритвира и хип-хоп культуры. Сегодня Louis Vuitton – это глобальная империя роскоши, символ статуса и мастерства, продолжающий балансировать между богатым наследием и авангардными трендами.</p>
+                         <p><a href="https://www.louisvuitton.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Секция Versace -->
+             <article id="versace" class="brand-section">
+                <h2>Versace</h2>
+                 <div class="brand-content">
+                  
+                    <img src="https://i.pinimg.com/736x/b1/d0/a7/b1d0a7e4f234b2461cd021f938ccbbcc.jpg" alt="Яркий образ Versace или мотив Медузы" class="brand-image">
+                     <div class="brand-description">
+                        <p>Джанни Версаче основал свой одноименный бренд в Милане в 1978 году, быстро став одним из самых ярких и смелых дизайнеров своего времени. Его стиль – это квинтэссенция итальянской роскоши: дерзкий, чувственный, гламурный, на грани китча. Версаче не боялся использовать яркие цвета, анималистичные и барочные принты, кожу, металл (включая инновационную ткань Oroton – металлическую сетку), откровенные вырезы и облегающие силуэты.</p>
+                        <p>Символом дома стала голова Медузы Горгоны, выбранная Джанни как знак роковой привлекательности и силы. Греческий орнамент (меандр) также стал узнаваемым элементом стиля Versace. Джанни был тесно связан с миром знаменитостей и супермоделей (Наоми Кэмпбелл, Синди Кроуфорд, Линды Евангелисты), создавая для них незабываемые образы для красных дорожек. Знаменитое черное платье Элизабет Херли с английскими булавками (1994) или зеленое "Jungle Dress" Дженнифер Лопес (2000) вошли в историю моды.</p>
+                        <p>После трагической гибели Джанни Версаче в 1997 году, креативное руководство домом взяла на себя его сестра Донателла Версаче. Она сумела сохранить ДНК бренда – гламур, сексуальность и уверенность в себе – адаптируя его к меняющимся временам. Versace остается символом роскошного, уверенного и немного провокационного стиля жизни.</p>
+                         <p><a href="https://www.versace.com/" target="_blank" rel="noopener noreferrer">Официальный сайт</a></p>
+                    </div>
+                </div>
+            </article>
+
+        </section> 
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2024 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Переключение темы (Theme Toggle) - Standard Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                themeToggle.textContent = '🌞';
+            }
+        }
+        themeToggle.addEventListener('click', () => {
+            let newTheme;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌓';
+                newTheme = 'light';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌞';
+                newTheme = 'dark';
+            }
+             localStorage.setItem('theme', newTheme);
+        });
+
+        // Burger Menu Logic - Standard Logic
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mainNav = document.querySelector('.header .nav');
+        if (burgerMenu && mainNav) {
+            burgerMenu.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                const isActive = mainNav.classList.contains('active');
+                burgerMenu.innerHTML = isActive ? '✕' : '☰';
+                burgerMenu.setAttribute('aria-label', isActive ? 'Закрыть меню' : 'Открыть меню');
+                burgerMenu.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            });
+             mainNav.querySelectorAll('.nav-link').forEach(link => {
+                 link.addEventListener('click', (event) => {
+                     const linkHref = link.getAttribute('href');
+                     const isCurrentPageAnchor = linkHref && linkHref.startsWith('#') && window.location.pathname === link.pathname;
+                     const isMobile = window.getComputedStyle(burgerMenu).display !== 'none';
+
+                     if (isMobile) {
+                        mainNav.classList.remove('active');
+                        burgerMenu.innerHTML = '☰';
+                        burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                        burgerMenu.setAttribute('aria-expanded', 'false');
+                     }
+                 });
+             });
+             document.addEventListener('click', (event) => {
+                if (mainNav.classList.contains('active') && !mainNav.contains(event.target) && !burgerMenu.contains(event.target)) {
+                     mainNav.classList.remove('active');
+                     burgerMenu.innerHTML = '☰';
+                     burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                     burgerMenu.setAttribute('aria-expanded', 'false');
+                }
+            });
+        } else {
+            console.warn("Burger menu button (#burgerMenu) or navigation (.header .nav) element not found.");
+        }
+    </script>
+</body>
+</html>

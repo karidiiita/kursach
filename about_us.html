@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - О нас</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #C85A3E;
+            --neutral-light: #F7F7F7;
+            --neutral-medium: #EAEAEA;
+            --neutral-dark: #BDBDBD;
+            --dark: #212121;
+            --bg-color: var(--neutral-light);
+            --text-color: #333333;
+            --text-muted: #666666;
+            --header-bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --footer-bg: var(--dark);
+            --footer-text: #E0E0E0;
+            --border-color: var(--neutral-medium);
+            --link-color: var(--terracotta);
+            --pill-button-bg: var(--neutral-medium);
+            --pill-button-text: var(--text-color);
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --neutral-light: #1E1E1E;
+            --neutral-medium: #2C2C2C;
+            --neutral-dark: #555555;
+            --dark: #F0F0F0;
+            --bg-color: #1A1A1A;
+            --text-color: #E0E0E0;
+            --text-muted: #AAAAAA;
+            --header-bg: #121212;
+            --card-bg: #121212;
+            --footer-bg: var(--neutral-light);
+            --footer-text: #BDBDBD;
+            --border-color: #333333;
+            --link-color: #E57373;
+            --pill-button-bg: var(--neutral-medium);
+            --pill-button-text: var(--text-color);
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--header-bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: nowrap;
+            gap: 20px;
+            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.3s, border-color 0.3s;
+            white-space: nowrap;
+            padding: 8px 4px;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active {
+            color: var(--link-color);
+            border-bottom-color: var(--link-color);
+        }
+        .nav-link:hover {
+            color: var(--link-color);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+            padding: 5px;
+            display: block;
+        }
+        .theme-toggle:hover {
+            color: var(--text-color);
+        }
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .mobile-nav-container {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--header-bg);
+            padding: 0;
+            z-index: 999;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-top: 1px solid var(--border-color);
+        }
+        .mobile-nav-container.active {
+            display: flex;
+        }
+        .mobile-nav-container .nav-link {
+             width: 100%;
+             text-align: left;
+             padding: 15px 30px;
+             border-bottom: 1px solid var(--border-color);
+             font-size: 1em;
+        }
+         .mobile-nav-container .nav-link:last-child {
+             border-bottom: none;
+         }
+         .mobile-nav-container .nav-link.active {
+             border-bottom-color: var(--link-color);
+         }
+
+        .about-page-section {
+            padding: 40px 0 60px 0;
+        }
+        .about-page-title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            transition: color 0.3s;
+            letter-spacing: -0.5px;
+        }
+
+        .about-nav-container {
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 45px;
+            overflow-x: auto;
+            padding: 15px 0;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .about-nav-container::-webkit-scrollbar {
+            display: none;
+        }
+        .about-nav {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 15px;
+            list-style: none;
+            width: max-content;
+            margin: 0 auto;
+        }
+        .about-nav a {
+            text-decoration: none;
+            color: var(--pill-button-text);
+            background-color: var(--pill-button-bg);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+            border-bottom: none;
+             border: 1px solid transparent;
+        }
+        .about-nav a:hover {
+            background-color: var(--neutral-dark);
+            color: var(--dark);
+             border-bottom-color: transparent;
+             transform: translateY(-1px);
+             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+         [data-theme="dark"] .about-nav a:hover {
+             background-color: var(--neutral-dark);
+             color: var(--text-color);
+             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+         }
+
+        .content-block {
+             background: var(--card-bg);
+             padding: 35px 30px;
+             margin-bottom: 45px;
+             border-radius: 8px;
+             border: 1px solid var(--border-color);
+             transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+             box-shadow: var(--card-shadow);
+        }
+        .content-block::before {
+             display: block;
+             content: " ";
+             margin-top: -100px;
+             height: 100px;
+             visibility: hidden;
+             pointer-events: none;
+         }
+
+        .content-block h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            transition: color 0.3s;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .content-block p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 1.5em;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .content-block p:last-of-type {
+             margin-bottom: 0;
+         }
+
+        .content-figure {
+            margin: 30px 0;
+            max-width: 100%;
+        }
+        .content-image {
+             width: 100%;
+             height: auto;
+             aspect-ratio: 16 / 7;
+             object-fit: cover;
+             border-radius: 6px;
+             display: block;
+             border: 1px solid var(--border-color);
+             transition: border-color 0.3s;
+        }
+        .content-figcaption {
+             text-align: center;
+             font-size: 0.85em;
+             color: var(--text-muted);
+             padding-top: 8px;
+             transition: color 0.3s;
+        }
+        .team-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 35px;
+            justify-content: space-around;
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+        .team-member {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            flex: 1 1 200px;
+            max-width: 250px;
+            background-color: var(--bg-color);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .team-member:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow);
+        }
+        .team-member-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--card-bg);
+            outline: 1px solid var(--border-color);
+            background-color: var(--neutral-medium);
+        }
+
+        .team-member-info h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+            transition: color 0.3s;
+        }
+        .team-member-info .team-member-title {
+            font-size: 0.9em;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            line-height: 1.4;
+            transition: color 0.3s;
+        }
+        .team-container > p {
+            margin-top: 1.5em !important;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            font-size: 1em;
+        }
+        .contact-item strong {
+             flex-shrink: 0;
+             margin-right: 15px;
+             font-weight: 600;
+             color: var(--text-muted);
+             min-width: 80px;
+             transition: color 0.3s;
+        }
+        .contact-item a {
+            color: var(--link-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: color 0.3s, border-color 0.3s;
+            word-break: break-word;
+        }
+        .contact-item a:hover {
+             color: var(--terracotta);
+             border-bottom-color: var(--terracotta);
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 60px;
+            transition: background-color 0.3s, color 0.3s;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .contact-info {
+            font-size: 0.9em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            opacity: 0.8;
+        }
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        @media (max-width: 992px) {
+             .wrapper {
+                 max-width: 90%;
+                 padding: 0 20px;
+             }
+             .header-right {
+                 gap: 10px;
+             }
+             .nav {
+                 gap: 15px;
+             }
+             .nav-link {
+                 font-size: 0.9em;
+             }
+             .logo {
+                 font-size: 1.6rem;
+             }
+             .team-member {
+                 flex-basis: calc(50% - 20px);
+             }
+        }
+        @media (max-width: 767px) {
+            body {
+                font-size: 15px;
+            }
+            .wrapper {
+                padding: 0 20px;
+            }
+            .header {
+                padding: 12px 20px;
+            }
+            .nav {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .header-right {
+                gap: 10px;
+            }
+
+            .about-page-section {
+                padding: 30px 0 40px 0;
+            }
+            .about-page-title {
+                font-size: 2.1rem;
+                margin-bottom: 30px;
+            }
+            .about-nav-container {
+                margin-bottom: 30px;
+            }
+
+            .about-nav {
+                gap: 8px;
+            }
+            .about-nav a {
+                font-size: 0.85rem;
+                padding: 7px 14px;
+            }
+
+            .content-block {
+                padding: 25px 20px;
+                margin-bottom: 35px;
+            }
+            .content-block h2 {
+                font-size: 1.45em;
+            }
+            .content-block p {
+                font-size: 0.95em;
+            }
+            .content-image {
+                aspect-ratio: 16/9;
+                margin: 20px 0;
+            }
+
+            .team-container {
+                padding-bottom: 15px;
+            }
+            .team-section {
+                gap: 25px;
+            }
+            .team-member {
+                 flex-basis: calc(50% - 15px);
+                 padding: 15px;
+             }
+             .team-member-photo {
+                 width: 90px;
+                 height: 90px;
+             }
+
+            .contact-panel {
+                padding: 25px 20px;
+            }
+            .contact-panel h2 {
+                font-size: 1.45em;
+            }
+            .contact-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .contact-item strong {
+                min-width: unset;
+                margin-bottom: 2px;
+            }
+
+            .content-block::before {
+                margin-top: -80px;
+                height: 80px;
+            }
+            .footer {
+                padding: 40px 0;
+            }
+            .contact-info {
+                font-size: 0.85em;
+                gap: 10px 20px;
+            }
+        }
+         @media (max-width: 480px) {
+             .wrapper {
+                 padding: 0 15px;
+             }
+             .header {
+                 padding: 10px 15px;
+             }
+             .header-right {
+                 gap: 5px;
+             }
+             .mobile-nav-container .nav-link {
+                 padding: 12px 20px;
+             }
+
+             .content-block {
+                 padding: 20px 15px;
+             }
+             .content-block h2 {
+                 font-size: 1.3em;
+                 text-align: center;
+             }
+             .about-nav {
+                 gap: 6px;
+             }
+             .about-nav a {
+                 font-size: 0.8rem;
+                 padding: 6px 12px;
+             }
+             .content-image {
+                 max-width: 100%;
+             }
+             .content-figcaption {
+                 font-size: 0.8rem;
+             }
+             .team-member {
+                 flex-basis: 100%;
+             }
+             .team-member-photo {
+                 width: 100px;
+                 height: 100px;
+             }
+             .contact-item {
+                 align-items: center;
+             }
+         }
+    </style>
+</head>
+<body>
+    <header class="header">
+         <div class="wrapper" style="display: contents;">
+            <a href="#" class="logo">EcoStyle</a>
+            <div class="header-right">
+                <nav class="nav">
+                    <a href="news.html" class="nav-link">Новости</a>
+                    <a href="wardrobe.html" class="nav-link">Гардероб</a>
+                    <a href="history.html" class="nav-link">История моды</a>
+                    <a href="about_us.html" class="nav-link active">О нас</a>
+                    <a href="brands.html" class="nav-link">Бренды</a>
+                    <a href="show.html" class="nav-link">Показы</a>
+                    <a href="faq.html" class="nav-link">FAQ</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌓</button>
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+            </div>
+         </div>
+         <nav class="mobile-nav-container" id="mobileNav">
+         </nav>
+    </header>
+
+    <main class="wrapper">
+        <section class="about-page-section">
+            <h1 class="about-page-title">О EcoStyle</h1>
+
+            <div class="about-nav-container">
+                <nav class="about-nav" aria-label="Навигация по странице">
+                    <a href="#mission">Наша миссия</a>
+                    <a href="#philosophy">Философия</a>
+                    <a href="#approach">Подход</a>
+                    <a href="#team">Команда</a>
+                    <a href="#contact">Контакты</a>
+                </nav>
+            </div>
+
+            <article id="mission" class="content-block">
+                <h2>Наша миссия: стиль с сознанием</h2>
+                <p>EcoStyle – это ваш компас в динамичном и многогранном мире моды, где эстетика гармонично переплетается с этикой. Мы верим, что истинный стиль выходит за рамки быстротечных трендов, отражая не только уникальность личности, но и глубокое, осознанное отношение к окружающему миру. Наша миссия – вдохновлять вас на создание аутентичного образа, предоставляя самую свежую информацию, проницательный анализ и практические советы, всегда делая акцент на качестве, долговечности и принципах устойчивого развития.</p>
+                <p>Мы стремимся быть не просто информационным ресурсом, а сообществом для тех, кто восхищается красотой, ценит мастерство и уважает богатую историю моды, но при этом осознает ответственность за влияние своего выбора на планету и общество. От детального разбора последних коллекций и показов до руководств по созданию продуманного, функционального гардероба – EcoStyle здесь, чтобы сделать ваш путь к собственному стилю увлекательным, информированным и осмысленным.</p>
+                 <figure class="content-figure">
+                    <img src="https://cs6.livemaster.ru/storage/bb/0a/6cd6ce3a242bf216e84099fc2brb.jpg" alt="Вдохновение модой и природой" class="content-image">
+                    <figcaption class="content-figcaption">Верим в гармонию стиля, самовыражения и уважения к природе.</figcaption>
+                </figure>
+            </article>
+
+            <article id="philosophy" class="content-block">
+                <h2>Наша философия: индивидуальность и ответственность</h2>
+                <p>В эпоху "быстрой моды" и культуры одноразовых вещей, EcoStyle пропагандирует более глубокий, вдумчивый подход. Мы убеждены: стиль – это мощная форма самовыражения, которая должна дарить радость и уверенность, а не порождать стресс от бесконечной гонки за новинками. Мы поощряем развитие насмотренности, критического мышления, изучение истории и понимание культурного и социального контекста, в котором существует современная мода.</p>
+                <p>Центральный элемент нашей философии – ответственность. Мы активно исследуем и освещаем многогранную тему устойчивой моды: рассказываем о брендах, честно внедряющих экологичные практики, об инновационных материалах (от переработанного пластика до грибного мицелия), о важности прозрачных и этичных цепочек поставок. Мы делимся идеями, как продлить жизнь любимым вещам через уход и ремонт, как разумно формировать капсульный или базовый гардероб, и как каждый ваш осознанный выбор может стать маленьким вкладом в большие позитивные изменения в индустрии.</p>
+            </article>
+
+             <article id="approach" class="content-block">
+                <h2>Наш подход: анализ, вдохновение, практика</h2>
+                 <p>Контент EcoStyle строится на трех китах:</p>
+                 <figure class="content-figure">
+                     <img src="https://avatars.mds.yandex.net/get-altay/9954022/2a00000188a8c21625e1903e8da46a52e659/XXXL" alt="Процесс создания одежды" class="content-image">
+                    <figcaption class="content-figcaption">Качество, внимание к деталям и понимание процесса – ключи к осознанному стилю.</figcaption>
+                 </figure>
+                <ul>
+                    <li><strong>Глубокий анализ:</strong> Мы не просто сообщаем новости, а анализируем тренды, разбираем коллекции, изучаем историю брендов и явлений, помогая вам видеть картину целиком.</li>
+                    <li><strong>Эстетическое вдохновение:</strong> Мы отбираем самые интересные визуальные образы с подиумов, из стритстайла, истории искусств и кино, чтобы расширить ваш кругозор и насмотренность.</li>
+                    <li><strong>Практические советы:</strong> Мы предлагаем конкретные рекомендации по формированию гардероба, сочетанию вещей, уходу за одеждой и навигации в мире модных покупок – как онлайн, так и офлайн.</li>
+                </ul>
+                <p>Мы сочетаем экспертные знания с доступной подачей, стремясь сделать мир моды понятным и близким для каждого, кто им интересуется.</p>
+            </article>
+
+             <section id="team" class="content-block team-container">
+                <h2>Наша команда</h2>
+                <p style="text-align: center; margin-bottom: 2.5em; color: var(--text-muted);">За EcoStyle стоит команда энтузиастов, влюбленных в моду и стремящихся поделиться своими знаниями:</p>
+                <div class="team-section">
+                    <div class="team-member">
+                        <img src="https://st03.kakprosto.ru/images/article/2019/3/15/340798_5c8b1e7501bcd5c8b1e7501c06.jpeg" alt="Фото Карина Малахова" class="team-member-photo">
+                        <div class="team-member-info">
+                            <h4>Карина Малахова</h4>
+                            <p class="team-member-title">Основатель и главный редактор. Визионер проекта, отвечает за стратегию и качество контента.</p>
+                        </div>
+                    </div>
+                     <div class="team-member">
+                         <img src="https://miro.medium.com/v2/resize:fit:2400/2*xGE6p_YQI92s06DG-dhmig.jpeg" alt="Фото Алексей Петров" class="team-member-photo">
+                         <div class="team-member-info">
+                            <h4>Алексей Петров</h4>
+                            <p class="team-member-title">Стилист, автор статей. Анализирует тренды, дает практические советы по стилю и гардеробу.</p>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                         <img src="https://pp.userapi.com/c631423/v631423219/fb4/jfbIMaOl2B8.jpg" alt="Фото Елена Иванова" class="team-member-photo">
+                         <div class="team-member-info">
+                            <h4>Елена Иванова</h4>
+                            <p class="team-member-title">Эксперт по устойчивой моде. Исследует экологичные бренды и практики в индустрии.</p>
+                        </div>
+                    </div>
+                </div>
+                 <p style="margin-top: 1.5em;">Мы постоянно ищем новые темы, общаемся с экспертами и делимся с вами самыми актуальными и проверенными знаниями.</p>
+            </section>
+
+            <section id="contact" class="content-block contact-panel">
+                <h2>Свяжитесь с нами</h2>
+                 <p style="margin-bottom: 2em; color: var(--text-muted);">Есть вопросы, предложения или хотите сотрудничать? Мы всегда рады обратной связи!</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <strong>Телефон:</strong>
+                        <a href="tel:+375255377964">+375 (25) 537-79-64</a>
+                        </div>
+                    <div class="contact-item">
+                         <strong>Адрес:</strong>
+                         <a href="https://www.google.com/maps/search/?api=1&query=BSUIR+corpus+2,+Minsk" target="_blank" rel="noopener noreferrer">
+                            Минск, ул. Петруся Бровки 4 (БГУИР 2 корпус)
+                        </a>
+                    </div>
+                     <div class="contact-item">
+                        <strong>Email:</strong>
+                        <a href="mailto:malahovakarinv@gmail.com">malahovakarinv@gmail.com</a>
+                    </div>
+                </div>
+            </section>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2024 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+            </div>
+                </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const setTheme = (theme) => {
+            if (theme === 'dark') { body.setAttribute('data-theme', 'dark'); themeToggle.textContent = '🌞'; localStorage.setItem('theme', 'dark'); }
+            else { body.removeAttribute('data-theme'); themeToggle.textContent = '🌓'; localStorage.setItem('theme', 'light'); }
+        };
+
+        if (currentTheme) { setTheme(currentTheme); } else if (prefersDark) { setTheme('dark'); } else { setTheme('light'); }
+
+        themeToggle.addEventListener('click', () => { let newTheme = (body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'dark') ? 'light' : 'dark'; setTheme(newTheme); });
+
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const desktopNav = document.querySelector('.header .nav');
+
+        if (burgerMenu && mobileNav && desktopNav) {
+            const closeMenu = () => { mobileNav.classList.remove('active'); burgerMenu.innerHTML = '☰'; burgerMenu.setAttribute('aria-label', 'Открыть меню'); burgerMenu.setAttribute('aria-expanded', 'false'); }
+            const openMenu = () => { mobileNav.classList.add('active'); burgerMenu.innerHTML = '✕'; burgerMenu.setAttribute('aria-label', 'Закрыть меню'); burgerMenu.setAttribute('aria-expanded', 'true'); }
+
+             if (mobileNav.innerHTML.trim() === '') {
+                desktopNav.querySelectorAll('.nav-link').forEach(link => {
+                    const mobileLink = link.cloneNode(true);
+                    if (link.classList.contains('active')) { mobileLink.classList.add('active'); }
+                    else { mobileLink.classList.remove('active'); }
+                    mobileNav.appendChild(mobileLink);
+                });
+             }
+
+            burgerMenu.addEventListener('click', () => { const isActive = mobileNav.classList.contains('active'); if (isActive) { closeMenu(); } else { openMenu(); } });
+            mobileNav.querySelectorAll('.nav-link').forEach(link => { link.addEventListener('click', closeMenu); });
+            document.addEventListener('click', (event) => { if (mobileNav.classList.contains('active') && !mobileNav.contains(event.target) && !burgerMenu.contains(event.target)) { closeMenu(); } });
+            document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && mobileNav.classList.contains('active')) { closeMenu(); } });
+        } else { console.warn("Required elements for menu not found (burger, mobileNav, desktopNav)."); }
+
+    </script>
+</body>
+</html>

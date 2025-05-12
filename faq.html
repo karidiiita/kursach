@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - FAQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #C85A3E;
+            --neutral-light: #F7F7F7;
+            --neutral-medium: #EAEAEA;
+            --neutral-dark: #BDBDBD;
+            --dark: #212121;
+            --bg-color: var(--neutral-light);
+            --text-color: #333333;
+            --text-muted: #666666;
+            --header-bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --footer-bg: var(--dark);
+            --footer-text: #E0E0E0;
+            --border-color: var(--neutral-medium);
+            --link-color: var(--terracotta);
+        }
+
+        [data-theme="dark"] {
+            --neutral-light: #1E1E1E;
+            --neutral-medium: #2C2C2C;
+            --neutral-dark: #555555;
+            --dark: #F0F0F0;
+            --bg-color: #1A1A1A;
+            --text-color: #E0E0E0;
+            --text-muted: #AAAAAA;
+            --header-bg: #121212;
+            --card-bg: #121212;
+            --footer-bg: var(--neutral-light);
+            --footer-text: #BDBDBD;
+            --border-color: #333333;
+            --link-color: #E57373;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 30px;
+            width: 100%;
+        }
+        main.wrapper {
+             flex-grow: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: var(--header-bg);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: nowrap;
+            gap: 20px;
+            transition: background-color 0.3s, border-color 0.3s;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 0.95em;
+            transition: color 0.3s, border-color 0.3s;
+            white-space: nowrap;
+            padding: 8px 4px;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active {
+            color: var(--link-color);
+            border-bottom-color: var(--link-color);
+        }
+        .nav-link:hover {
+            color: var(--link-color);
+        }
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: color 0.3s;
+            padding: 5px;
+            display: block;
+        }
+        .theme-toggle:hover {
+            color: var(--text-color);
+        }
+        .burger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 1.8rem;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+        .mobile-nav-container {
+             display: none;
+             flex-direction: column;
+             position: absolute;
+             top: 100%;
+             left: 0;
+             width: 100%;
+             background: var(--header-bg);
+             padding: 0;
+             z-index: 999;
+             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+             border-top: 1px solid var(--border-color);
+        }
+        .mobile-nav-container.active {
+            display: flex;
+        }
+         .mobile-nav-container .nav-link {
+             width: 100%;
+             text-align: left;
+             padding: 15px 30px;
+             border-bottom: 1px solid var(--border-color);
+             font-size: 1em;
+        }
+         .mobile-nav-container .nav-link:last-child {
+             border-bottom: none;
+         }
+         .mobile-nav-container .nav-link.active {
+             border-bottom-color: var(--link-color);
+         }
+
+        .faq-page-section {
+            padding: 60px 0;
+        }
+        .faq-page-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            transition: color 0.3s;
+            letter-spacing: -0.5px;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+            overflow: hidden;
+        }
+
+        .faq-question-button {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 20px 30px;
+            text-align: left;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15em;
+            font-weight: 600;
+            color: var(--dark);
+            transition: color 0.3s;
+            position: relative;
+        }
+         .faq-question-button:hover {
+             color: var(--link-color);
+         }
+         .faq-question-button:focus-visible {
+            outline: 2px solid var(--link-color);
+            outline-offset: 2px;
+            border-radius: 4px;
+         }
+
+        .faq-question-button::after {
+             content: '+';
+             font-size: 1.5em;
+             font-weight: 300;
+             color: var(--text-muted);
+             transition: transform 0.3s ease, color 0.3s;
+             flex-shrink: 0;
+             margin-left: 15px;
+             line-height: 1;
+         }
+
+        .faq-item.active .faq-question-button::after {
+             transform: rotate(45deg);
+             color: var(--terracotta);
+         }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 30px;
+        }
+
+        .faq-item.active .faq-answer {
+             padding: 0px 30px 25px 30px;
+             border-top: 1px solid var(--border-color);
+             transition: max-height 0.4s ease-in, padding 0.4s ease-in, border-color 0.3s;
+        }
+
+        .faq-answer p {
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 1em;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+         .faq-answer p:last-child {
+             margin-bottom: 0;
+         }
+         .faq-answer a {
+             color: var(--link-color);
+             text-decoration: none;
+             border-bottom: 1px solid var(--border-color);
+             transition: color 0.3s, border-color 0.3s;
+         }
+         .faq-answer a:hover {
+             color: var(--terracotta);
+             border-bottom-color: var(--terracotta);
+         }
+         .faq-answer ul {
+             list-style-type: disc;
+             list-style-position: outside;
+             margin-left: 20px;
+             margin-top: 1em;
+             margin-bottom: 1em;
+         }
+         .faq-answer li {
+             margin-bottom: 10px;
+             padding-left: 5px;
+         }
+         .faq-answer li::marker {
+             color: var(--terracotta);
+         }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px 0;
+            text-align: center;
+            margin-top: 60px;
+            transition: background-color 0.3s, color 0.3s;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer p {
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .contact-info {
+            font-size: 0.9em;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 25px;
+            opacity: 0.8;
+        }
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s, opacity 0.3s;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+            opacity: 1;
+        }
+
+        @media (max-width: 992px) {
+             .wrapper {
+                 max-width: 90%;
+                 padding: 0 20px;
+             }
+             .header-right {
+                 gap: 10px;
+             }
+             .nav {
+                 gap: 15px;
+             }
+             .nav-link {
+                 font-size: 0.9em;
+             }
+             .logo {
+                 font-size: 1.6rem;
+             }
+        }
+        @media (max-width: 767px) {
+            body {
+                font-size: 15px;
+            }
+            .wrapper {
+                padding: 0 20px;
+            }
+            .header {
+                padding: 12px 20px;
+            }
+            .nav {
+                display: none;
+            }
+            .burger-menu {
+                display: block;
+            }
+            .header-right {
+                gap: 10px;
+            }
+
+            .faq-page-section {
+                padding: 40px 0;
+            }
+            .faq-page-title {
+                font-size: 2.1rem;
+                margin-bottom: 40px;
+            }
+            .faq-item {
+                padding: 0;
+            }
+            .faq-question-button {
+                font-size: 1.1em;
+                padding: 18px 25px;
+            }
+            .faq-answer {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+            .faq-item.active .faq-answer {
+                padding-bottom: 20px;
+                padding-top: 15px;
+            }
+            .faq-answer p {
+                font-size: 0.95em;
+            }
+
+            .footer {
+                padding: 40px 0;
+            }
+            .contact-info {
+                font-size: 0.85em;
+                gap: 10px 20px;
+            }
+        }
+         @media (max-width: 480px) {
+             .wrapper {
+                 padding: 0 15px;
+             }
+             .header {
+                 padding: 10px 15px;
+             }
+             .header-right {
+                 gap: 5px;
+             }
+             .mobile-nav-container .nav-link {
+                 padding: 12px 20px;
+             }
+
+             .faq-item {
+                 margin-bottom: 10px;
+             }
+             .faq-question-button {
+                 font-size: 1.05em;
+                 padding: 15px 20px;
+             }
+             .faq-answer {
+                 padding-left: 20px;
+                 padding-right: 20px;
+             }
+             .faq-item.active .faq-answer {
+                 padding-bottom: 15px;
+                 padding-top: 10px;
+             }
+             .faq-answer p {
+                 font-size: 0.9em;
+             }
+         }
+    </style>
+</head>
+<body>
+    <header class="header">
+         <div class="wrapper" style="display: contents;">
+            <a href="#" class="logo">EcoStyle</a>
+            <div class="header-right">
+                <nav class="nav">
+                    <a href="news.html" class="nav-link">Новости</a>
+                    <a href="wardrobe.html" class="nav-link">Гардероб</a>
+                    <a href="history.html" class="nav-link">История</a>
+                    <a href="about_us.html" class="nav-link">О нас</a>
+                    <a href="brands.html" class="nav-link">Бренды</a>
+                    <a href="show.html" class="nav-link">Показы</a>
+                    <a href="faq.html" class="nav-link active">FAQ</a>
+                </nav>
+                <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌓</button>
+                <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+            </div>
+         </div>
+         <nav class="mobile-nav-container" id="mobileNav">
+         </nav>
+    </header>
+
+    <main class="wrapper">
+        <section class="faq-page-section">
+            <h1 class="faq-page-title">Часто Задаваемые Вопросы (FAQ)</h1>
+
+            <div class="faq-list">
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-1">
+                        Как найти свой личный стиль?
+                    </button>
+                    <div id="faq-answer-1" class="faq-answer">
+                        <p>Поиск личного стиля – это путешествие, а не конечная точка. Начните с вдохновения: собирайте образы, которые вам нравятся (например, на Pinterest или сохраняя посты). Анализируйте, что именно вас привлекает: цвета, силуэты, текстуры, настроение.</p>
+                        <p>Проведите ревизию своего гардероба: какие вещи вы носите чаще всего и почему? Какие доставляют вам радость и уверенность? Экспериментируйте с сочетаниями, пробуйте новое, но не гонитесь слепо за трендами. Ваш стиль должен отражать вашу личность, образ жизни и быть комфортным для вас.</p>
+                    </div>
+                </article>
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-2">
+                        Что такое "капсульный гардероб" и как его составить?
+                    </button>
+                    <div id="faq-answer-2" class="faq-answer">
+                        <p>Капсульный гардероб – это небольшой набор взаимозаменяемых базовых вещей, которые хорошо сочетаются друг с другом, позволяя создавать множество образов. Цель – иметь меньше вещей, но больше комбинаций, избегая импульсивных покупок.</p>
+                        <p>Чтобы составить капсулу, определите свой основной стиль жизни (офис, кэжуал, творческий и т.д.), выберите нейтральную цветовую палитру (2-3 базовых цвета + 1-2 акцентных) и подберите основные элементы: несколько "низов" (брюки, юбки), "верхов" (футболки, рубашки, свитеры), платьев, верхнюю одежду и обувь. Ключевое – универсальность и сочетаемость.</p>
+                    </div>
+                </article>
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-3">
+                        Как следить за модными трендами, не теряя индивидуальности?
+                    </button>
+                    <div id="faq-answer-3" class="faq-answer">
+                        <p>Тренды – это ориентиры, а не строгие правила. Используйте их как источник вдохновения, но адаптируйте под себя. Не обязательно покупать самую "горячую" вещь сезона, если она вам не идет или не вписывается в ваш стиль.</p>
+                        <p>Вместо этого, попробуйте интегрировать тренд через аксессуары (сумка модного цвета, актуальная форма очков), детали (интересный рукав, модный принт на шарфе) или цветовую гамму. Главное – чтобы трендовая вещь органично дополняла ваш уже существующий гардероб и личный стиль.</p>
+                    </div>
+                </article>
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-4">
+                        Что такое устойчивая мода (sustainable fashion)?
+                    </button>
+                    <div id="faq-answer-4" class="faq-answer">
+                        <p>Устойчивая (или этичная, экологичная) мода – это подход к дизайну, производству и потреблению одежды, который минимизирует вред для окружающей среды и обеспечивает справедливые условия труда для людей, занятых в индустрии.</p>
+                        <p>Это включает использование экологичных материалов (органический хлопок, лен, переработанные волокна), сокращение потребления воды и химикатов, этичное производство, поддержку локальных брендов, продление жизни вещей (ремонт, перепродажа, апсайклинг) и осознанное потребление (покупать меньше, но качественнее).</p>
+                    </div>
+                </article>
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-5">
+                        Как сделать свой гардероб более экологичным?
+                    </button>
+                    <div id="faq-answer-5" class="faq-answer">
+                        <ul>
+                            <li><strong>Покупайте меньше, выбирайте лучше:</strong> Инвестируйте в качественные вещи, которые прослужат долго, вместо импульсивных покупок быстрой моды.</li>
+                            <li><strong>Изучайте состав:</strong> Отдавайте предпочтение натуральным (лен, органический хлопок, конопля) или переработанным материалам (переработанный полиэстер, Tencel/Lyocell).</li>
+                            <li><strong>Поддерживайте устойчивые бренды:</strong> Ищите марки, которые прозрачно говорят о своем производстве и используют экологичные практики.</li>
+                            <li><strong>Покупайте винтаж и секонд-хенд:</strong> Это отличный способ дать вещам вторую жизнь и найти уникальные предметы.</li>
+                            <li><strong>Ухаживайте за одеждой:</strong> Правильная стирка (реже, в холодной воде, сушка на воздухе) и хранение продлевают срок службы вещей. Ремонтируйте, а не выбрасывайте.</li>
+                            <li><strong>Обменивайтесь или перепродавайте:</strong> Если вещь вам больше не нужна, подарите ее, продайте или отнесите на переработку.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                 <article class="faq-item">
+                     <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-6">
+                         Какие базовые вещи должны быть в гардеробе?
+                     </button>
+                     <div id="faq-answer-6" class="faq-answer">
+                         <p>Базовый гардероб индивидуален, но есть универсальные элементы, которые легко комбинировать:</p>
+                         <ul>
+                             <li>Хорошо сидящие джинсы (темно-синие или черные).</li>
+                             <li>Классические брюки (черные, серые или бежевые).</li>
+                             <li>Белая футболка и/или лонгслив хорошего качества.</li>
+                             <li>Белая рубашка (классическая или оверсайз).</li>
+                             <li>Нейтральный джемпер или кардиган (кашемир, меринос, хлопок).</li>
+                             <li>Маленькое черное платье (или универсальное платье другого нейтрального цвета).</li>
+                             <li>Жакет или блейзер.</li>
+                             <li>Классическое пальто или тренч.</li>
+                             <li>Универсальная пара обуви (например, белые кеды, лоферы, ботильоны).</li>
+                         </ul>
+                         <p>Ключ к базе - простой крой, качественные материалы и нейтральные цвета, которые легко сочетаются с другими вещами.</p>
+                     </div>
+                 </article>
+
+                 <article class="faq-item">
+                     <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-7">
+                         Как определить свой тип фигуры и подбирать одежду под него?
+                     </button>
+                     <div id="faq-answer-7" class="faq-answer">
+                         <p>Существует несколько основных типов фигур (песочные часы, прямоугольник, треугольник/груша, перевернутый треугольник, яблоко), но не стоит загонять себя в строгие рамки. Главное – понять пропорции своего тела и научиться их балансировать с помощью одежды.</p>
+                         <p><strong>Основной принцип:</strong> привлекайте внимание к достоинствам и создавайте визуальный баланс. Например:</p>
+                         <ul>
+                            <li>Если у вас узкие плечи и широкие бедра ("груша"), акцентируйте верхнюю часть тела (интересные вырезы, объемные рукава, светлые топы) и выбирайте более темный и лаконичный низ.</li>
+                            <li>Если плечи шире бедер ("перевернутый треугольник"), делайте акцент на нижней части (пышные юбки, брюки с принтом) и выбирайте простой верх.</li>
+                            <li>Если талия не выражена ("прямоугольник"), создавайте иллюзию изгибов с помощью поясов, басок, приталенных силуэтов или контрастных цветовых блоков.</li>
+                         </ul>
+                         <p>Экспериментируйте перед зеркалом и выбирайте то, в чем чувствуете себя комфортно и уверенно.</p>
+                     </div>
+                 </article>
+
+                <article class="faq-item">
+                    <button class="faq-question-button" aria-expanded="false" aria-controls="faq-answer-8">
+                        Как часто обновляется информация на сайте EcoStyle?
+                    </button>
+                    <div id="faq-answer-8" class="faq-answer">
+                        <p>Мы стараемся регулярно добавлять новые статьи, обзоры и новости из мира моды. Следите за обновлениями в разделах <a href="news.html">"Новости"</a> и <a href="brands.html">"Бренды"</a>. Информация о показах мод обновляется сезонно, а советы по стилю, истории моды и FAQ пополняются по мере подготовки материалов нашими авторами и редакторами.</p>
+                    </div>
+                </article>
+
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2024 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        const setTheme = (theme) => {
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌓';
+                localStorage.setItem('theme', 'light');
+            }
+        };
+
+        if (currentTheme) {
+            setTheme(currentTheme);
+        } else if (prefersDark) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            let newTheme = (body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'dark') ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileNav = document.getElementById('mobileNav');
+        const desktopNav = document.querySelector('.header .nav');
+
+        if (burgerMenu && mobileNav && desktopNav) {
+            const closeMenu = () => {
+                 mobileNav.classList.remove('active');
+                 burgerMenu.innerHTML = '☰';
+                 burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'false');
+            }
+             const openMenu = () => {
+                 mobileNav.classList.add('active');
+                 burgerMenu.innerHTML = '✕';
+                 burgerMenu.setAttribute('aria-label', 'Закрыть меню');
+                 burgerMenu.setAttribute('aria-expanded', 'true');
+             }
+
+             if (mobileNav.innerHTML.trim() === '') {
+                desktopNav.querySelectorAll('.nav-link').forEach(link => {
+                    const mobileLink = link.cloneNode(true);
+                    if (link.classList.contains('active')) {
+                        mobileLink.classList.add('active');
+                    }
+                    else {
+                        mobileLink.classList.remove('active');
+                    }
+                    mobileNav.appendChild(mobileLink);
+                });
+             }
+
+            burgerMenu.addEventListener('click', () => {
+                const isActive = mobileNav.classList.contains('active');
+                if (isActive) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            mobileNav.querySelectorAll('.nav-link').forEach(link => {
+                 link.addEventListener('click', closeMenu);
+            });
+            document.addEventListener('click', (event) => {
+                if (mobileNav.classList.contains('active') && !mobileNav.contains(event.target) && !burgerMenu.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && mobileNav.classList.contains('active')) {
+                    closeMenu();
+                }
+            });
+        } else {
+            console.warn("Required elements for menu not found (burger, mobileNav, desktopNav).");
+        }
+
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const button = item.querySelector('.faq-question-button');
+            const answer = item.querySelector('.faq-answer');
+            const answerId = answer.getAttribute('id');
+
+            if(!button || !answer || !answerId) return;
+
+            button.setAttribute('aria-controls', answerId);
+
+            button.addEventListener('click', () => {
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                const currentActiveItem = document.querySelector('.faq-item.active');
+
+                if (currentActiveItem && currentActiveItem !== item) {
+                    const currentActiveButton = currentActiveItem.querySelector('.faq-question-button');
+                    const currentActiveAnswer = currentActiveItem.querySelector('.faq-answer');
+
+                    currentActiveItem.classList.remove('active');
+                    currentActiveButton.setAttribute('aria-expanded', 'false');
+                    currentActiveAnswer.style.maxHeight = '0px';
+                }
+
+                if (isExpanded) {
+                    item.classList.remove('active');
+                    button.setAttribute('aria-expanded', 'false');
+                    answer.style.maxHeight = '0px';
+                } else {
+                    item.classList.add('active');
+                    button.setAttribute('aria-expanded', 'true');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+
+                    answer.addEventListener('transitionend', () => {
+                        if (item.classList.contains('active')) {
+                             answer.style.maxHeight = 'none';
+                        }
+                    }, { once: true });
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

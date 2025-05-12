@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - Новости моды</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+       
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #CC6B4E;
+            --neutral: #F5F5F5;
+            --dark: #333333;
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --header-bg: white;
+            --card-bg: white; 
+            --footer-bg: #333333;
+            --footer-text: white;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1E1E1E;
+            --card-bg: #2D2D2D;
+            --footer-bg: #1E1E1E;
+            --footer-text: #e0e0e0;
+            --neutral: #2D2D2D;
+            --dark: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+             scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden; 
+        }
+
+        .wrapper {
+            max-width: 1200px; 
+            margin: 0 auto;
+            padding: 0 20px; 
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--header-bg);
+            position: relative;
+            flex-wrap: wrap;
+            gap: 15px;
+            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; 
+            color: var(--terracotta);
+            flex-shrink: 0;
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 25px; 
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: var(--terracotta);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            transition: color 0.3s;
+        }
+
+        .burger-menu {
+            display: none; 
+            cursor: pointer;
+            padding: 5px;
+            border: none;
+            background: none;
+            font-size: 2rem;
+            color: var(--text-color);
+            order: 3; 
+            transition: color 0.3s;
+        }
+
+        /* Секция новостей */
+        .news-section {
+            padding: 40px 0; 
+        }
+
+         .news-section-title {
+            text-align: center;
+            margin-bottom: 40px; 
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+             transition: color 0.3s;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px; 
+        }
+
+        @media (min-width: 600px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+                gap: 30px;
+            }
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            display: flex; 
+            flex-direction: column;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: auto; 
+            aspect-ratio: 16 / 10; 
+            object-fit: cover;
+            display: block; 
+        }
+
+        .news-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; 
+            transition: background-color 0.3s;
+        }
+
+        .news-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem; 
+            margin-bottom: 10px;
+            color: var(--dark);
+            transition: color 0.3s;
+        }
+
+        .news-description {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            flex-grow: 1;
+            transition: color 0.3s;
+        }
+
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 30px 0; 
+            text-align: center;
+            margin-top: 40px; 
+             transition: background-color 0.3s, color 0.3s;
+        }
+
+      
+
+        .footer p {
+            margin-bottom: 15px; 
+        }
+
+        .contact-info {
+            font-size: 0.9rem;
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 10px 20px; 
+        }
+
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+         .contact-info a:hover {
+             text-decoration: underline;
+         }
+
+       
+         @media (max-width: 992px) { 
+             .nav {
+                gap: 15px;
+            }
+             .nav-link {
+                font-size: 0.9rem;
+            }
+            .logo {
+                font-size: 1.6rem;
+            }
+         }
+
+        @media (max-width: 767px) { 
+            .header {
+                justify-content: space-between; 
+            }
+
+            .logo {
+                 width: auto;
+                 text-align: left;
+                 margin-bottom: 0;
+            }
+
+            .nav {
+                display: none; 
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--header-bg);
+                padding: 15px 20px;
+                align-items: flex-start;
+                z-index: 1000;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                border-top: 1px solid var(--neutral); 
+            }
+
+            .nav.active {
+                display: flex; 
+            }
+
+             .nav .theme-toggle {
+                 margin-top: 10px;
+                 align-self: flex-start;
+             }
+
+            .burger-menu {
+                display: block; 
+            }
+
+            .news-section {
+                padding: 30px 0;
+            }
+             .news-section-title {
+                 font-size: 2rem;
+                 margin-bottom: 30px;
+             }
+            .news-grid {
+                gap: 20px; 
+            }
+            .news-content {
+                padding: 15px; 
+            }
+             .news-title {
+                 font-size: 1.2rem;
+             }
+             .news-description {
+                 font-size: 0.9rem;
+             }
+
+             .footer {
+                 padding: 20px 0;
+             }
+             .contact-info {
+                 font-size: 0.85rem;
+                 gap: 8px 15px;
+             }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+         <div class="wrapper" style="display: contents;"> 
+            <a href="#" class="logo">EcoStyle</a> 
+
+            <nav class="nav"> 
+                <a href="wardrobe.html" class="nav-link">Гардероб</a>
+                <a href="history.html" class="nav-link">История</a>
+                <a href="about_us.html" class="nav-link">О нас</a>
+                <a href="brands.html" class="nav-link">Бренды</a>
+                <a href="show.html" class="nav-link">Показы</a>
+                <a href="faq.html" class="nav-link">FAQ</a>
+                <button class="theme-toggle" id="themeToggle">🌓</button>
+            </nav>
+
+            <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">☰</button>
+         </div>
+    </header>
+
+    <main>
+        <section class="news-section wrapper">
+            <h1 class="news-section-title">Новости модной индустрии</h1>
+            <div class="news-grid">
+                <div class="news-card">
+                    <img src="https://your.tj/wp-content/uploads/2022/10/gucci-detays-1443087123.jpg" alt="Gucci запускает коллекцию">
+                    <div class="news-content">
+                        <h3 class="news-title">Gucci запускает переработанную коллекцию</h3>
+                        <p class="news-description">Gucci представила новую коллекцию одежды, изготовленную из переработанных материалов. Коллекция включает в себя классические модели бренда, переосмысленные с использованием экологически чистых тканей.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="https://avatars.mds.yandex.net/i?id=9a363a87ae4d356faf6dbc741a865bef_l-7092330-images-thumbs&n=13" alt="Stella McCartney отказывается от кожи">
+                    <div class="news-content">
+                        <h3 class="news-title">Stella McCartney отказывается от натуральной кожи</h3>
+                        <p class="news-description">Stella McCartney объявила о своем решении полностью отказаться от использования натуральной кожи во всех своих коллекциях. Бренд планирует заменить кожу инновационными материалами на растительной основе.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="https://avatars.mds.yandex.net/get-altay/4508101/2a00000177454ec0a201893bfd3b58cf369e/orig" alt="H&M программа переработки">
+                    <div class="news-content">
+                        <h3 class="news-title">H&M представляет программу по переработке одежды</h3>
+                        <p class="news-description">H&M запустила новую программу по переработке старой одежды. Покупатели могут сдать свою ненужную одежду в любом магазине H&M и получить скидку на новую покупку.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="https://i.ytimg.com/vi/hVvpOWHcadI/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGDggZShbMA8=&rs=AOn4CLBAIP0ehP6j2ZfX8CM6fXEb-bchFQ" alt="Новая коллекция Adidas">
+                    <div class="news-content">
+                        <h3 class="news-title">Adidas выпустила новую коллекцию из океанического пластика</h3>
+                        <p class="news-description">Adidas представила новую коллекцию спортивной одежды и обуви, изготовленную из переработанного океанического пластика. Компания стремится к уменьшению загрязнения морей и океанов.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="https://okdiario.com/img/2018/04/25/ecoalf-foto.-ecoalf-e1524643765364.png" alt="Ecoalf расширяет производство">
+                    <div class="news-content">
+                        <h3 class="news-title">Ecoalf расширяет производство переработанной одежды</h3>
+                        <p class="news-description">Ecoalf, испанский бренд экологичной моды, объявил о расширении своего производства. Компания планирует увеличить объем переработанных материалов и предложить еще больше экологически чистой одежды.</p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <img src="https://avatars.dzeninfra.ru/get-zen_doc/5284326/pub_6367bf0b0536227c001c6118_6367c6d32e8fe92631b45f99/scale_1200" alt="Levi's сокращает отходы">
+                    <div class="news-content">
+                        <h3 class="news-title">Levi's представляет новую программу по сокращению отходов</h3>
+                        <p class="news-description">Levi's объявила о запуске новой программы по сокращению отходов в процессе производства. Компания планирует использовать меньше воды и химических веществ, а также перерабатывать старую одежду.</p>
+                    </div>
+                </div>
+            </div> 
+        </section> 
+    </main>
+
+    <footer class="footer">
+        <div class="wrapper">
+            <p>© 2024 EcoStyle. Все права защищены.</p>
+            <p>Делитесь информацией со своими друзьями.</p>
+        </div> 
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                themeToggle.textContent = '🌞';
+            }
+        }
+        themeToggle.addEventListener('click', () => {
+            let newTheme;
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌓';
+                newTheme = 'light';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌞';
+                newTheme = 'dark';
+            }
+             localStorage.setItem('theme', newTheme);
+        });
+
+       
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mainNav = document.querySelector('.header .nav');
+
+        if (burgerMenu && mainNav) {
+            burgerMenu.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                const isActive = mainNav.classList.contains('active');
+                burgerMenu.innerHTML = isActive ? '✕' : '☰'; 
+                burgerMenu.setAttribute('aria-label', isActive ? 'Закрыть меню' : 'Открыть меню');
+                burgerMenu.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+            });
+
+             // 
+             mainNav.querySelectorAll('.nav-link').forEach(link => {
+                 link.addEventListener('click', () => {
+                     if (window.getComputedStyle(burgerMenu).display !== 'none') {
+                         mainNav.classList.remove('active');
+                         burgerMenu.innerHTML = '☰';
+                         burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                         burgerMenu.setAttribute('aria-expanded', 'false');
+                     }
+                 });
+             });
+
+             document.addEventListener('click', (event) => {
+                if (mainNav.classList.contains('active') && !mainNav.contains(event.target) && !burgerMenu.contains(event.target)) {
+                     mainNav.classList.remove('active');
+                     burgerMenu.innerHTML = '☰';
+                     burgerMenu.setAttribute('aria-label', 'Открыть меню');
+                     burgerMenu.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+        } else {
+            console.warn("Burger menu button (#burgerMenu) or navigation (.header .nav) element not found.");
+        }
+    </script>
+</body>
+</html>

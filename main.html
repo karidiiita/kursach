@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoStyle - Мода с характером</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        /* CSS */
+        :root {
+            --eco-green: #4CAF50;
+            --terracotta: #CC6B4E;
+            --neutral: #F5F5F5;
+            --dark: #333333;
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --header-bg: white;
+            --card-bg: #F5F5F5;
+            --footer-bg: #333333;
+            --footer-text: white;
+        }
+
+        /* Темная тема */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1E1E1E;
+            --card-bg: #2D2D2D;
+            --footer-bg: #1E1E1E;
+            --footer-text: #e0e0e0;
+            --neutral: #2D2D2D;
+            --dark: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: var(--header-bg);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--terracotta);
+        }
+
+        .nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--terracotta);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 80px 50px;
+            min-height: 70vh;
+        }
+
+        .hero-content {
+            max-width: 500px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .hero-description {
+            margin-bottom: 40px;
+            color: var(--text-color);
+        }
+
+        .cta-button {
+            background: var(--eco-green);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin-top: auto;
+            display: block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 50px;
+            background: var(--header-bg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 15px;
+            background: var(--card-bg);
+            text-align: center;
+        }
+
+        .feature-card h3 {
+            color: var(--text-color);
+        }
+
+        .feature-card p {
+            color: var(--text-color);
+        }
+
+        .feature-icon {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--terracotta);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px;
+            text-align: center;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .contact-info a {
+            color: var(--footer-text);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">EcoStyle</div>
+        <nav class="nav">
+            <a  href="news.html" class="nav-link">Новости</a>
+            <a href="history.html" class="nav-link">История</a>
+            <a href="about_us.html" class="nav-link">О нас</a>
+            <a href="brands.html" class="nav-link">Бренды</a>
+            <a href="show.html" class="nav-link">Показы</a>
+            <a href="faq.html" class="nav-link">FAQ</a>
+            <button class="theme-toggle" id="themeToggle">🌓</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Стиль, который любит планету</h1>
+                <p class="hero-description">Создавай уникальные образы из экологичных материалов</p>
+                <button class="cta-button" id="startSelection">Начать подбор</button>
+
+            </div>
+            <img src="https://okdiario.com/coolthelifestyle/img/2021/01/13/new-york-str-b3-rf20-0047-3-scaled.jpg" alt="Экологичная мода" class="hero-image">
+        </section>
+
+        <section class="features">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">♻️</div>
+                    <h3>Эко-рейтинг</h3>
+                    <p>Выбирай бренды с лучшей экопрактикой</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👗</div>
+                    <h3>Цифровой гардероб</h3>
+                    <p>Планируй образы и комбинации</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Сообщество</h3>
+                    <p>Делитесь образами с единомышленниками</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 EcoStyle. Устойчивая мода для всех</p>
+        <p>Делитесь информацией со своими друзьями.</p>
+    </footer>
+
+    <script>
+        // Переключение темы
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Проверяем сохраненную тему в localStorage
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme) {
+            body.setAttribute('data-theme', currentTheme);
+            if (currentTheme === 'dark') {
+                themeToggle.textContent = '🌞';
+            }
+        }
+        const startSelectionButton = document.getElementById('startSelection');
+
+        startSelectionButton.addEventListener('click', function() {
+        window.location.href = 'wardrobe.html';
+            }
+        );
+
+        
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌓';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌞';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // Плавная прокрутка
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
